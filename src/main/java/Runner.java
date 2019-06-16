@@ -5,7 +5,7 @@ public class Runner {
 
     public static void main(String[] args) {
         try {
-            DBWriter.insertRecord("Catrina", "1978-3-26");
+            DBWriter.insertRecord("new_table2", "'Catrina', '1978-3-26'");
         } catch (Exception e){
             System.out.println("Failed to insert record");
         }
