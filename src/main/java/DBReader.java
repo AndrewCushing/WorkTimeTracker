@@ -19,7 +19,8 @@ public class DBReader {
             DBConnector.closeConnection();
             return result;
         } catch (Exception e){
-            e.printStackTrace();
+            System.out.println("Failed to send query");
+            DBConnector.closeConnection();
             return null;
         }
     }

@@ -17,7 +17,7 @@ public class DBConnector {
             Class.forName("com.mysql.cj.jdbc.Driver");
             System.out.println("Did class thing");
             con= DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/work_time_tracker","root","password");
+                    Config.DBLOCATION,"root","password");
             System.out.println("Connection made");
             Statement stmt=con.createStatement();
             System.out.println("Statement made");
@@ -35,6 +35,7 @@ public class DBConnector {
             connected = false;
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Failed to close connection with DB");
         }
 
     }
