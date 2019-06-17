@@ -3,7 +3,6 @@ import java.security.MessageDigest;
 
 final public class PassEncryptor {
 
-
     public String getHashedPass(String rawPass){
         byte[] hashedPass = {};
         try {
