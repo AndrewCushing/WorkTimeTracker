@@ -10,7 +10,7 @@ public class Runner {
 //        }
 
         ArrayList<String> tableContents = DBReader.sendSelectSQL("select * from new_table2 " +
-                "where dob > " + DateMaker.last30Days() + ";");
+                "where dob > " + DateMaker.lastXDays(30) + ";");
         for (String thing : tableContents){
             System.out.print(thing);
         }
