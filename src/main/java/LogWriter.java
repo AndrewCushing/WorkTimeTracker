@@ -4,14 +4,24 @@ import java.io.IOException;
 
 public class LogWriter {
 
-    BufferedWriter writer;
-    StringBuilder currentLogs = new StringBuilder();
+    private static BufferedWriter writer;
+    private static StringBuilder currentLogs = new StringBuilder();
+    private static boolean canMake = true;
 
-    public LogWriter(){
+    private LogWriter(){
         try {
             writer = new BufferedWriter(new FileWriter("C:\\Users\\Andy\\Documents\\myTestLogs.txt", true));
+            canMake = false;
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public LogWriter makeLogWriter(){
+        if (canMake){
+            return new LogWriter();
+        } else {
+            return null;
         }
     }
 

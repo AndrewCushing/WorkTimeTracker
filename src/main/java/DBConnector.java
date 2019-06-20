@@ -18,9 +18,9 @@ public class DBConnector {
             System.out.println("Did class thing");
             con= DriverManager.getConnection(
                     Config.DBLOCATION,"root","password");
-            System.out.println("Connection made");
+            System.out.println("Connection canMake");
             Statement stmt=con.createStatement();
-            System.out.println("Statement made");
+            System.out.println("Statement canMake");
             connected = true;
             return stmt;
         } catch (Exception e){
