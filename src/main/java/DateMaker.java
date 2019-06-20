@@ -4,8 +4,22 @@ import java.util.GregorianCalendar;
 public class DateMaker {
 
     public static void main(String[] args) {
-        System.out.println(lastXDays(30));
-        System.out.println(lastXMonths(2));
+        System.out.println(getCurrentDateTime());
+    }
+
+    public static String getCurrentDateTime(){
+        Calendar myCal = new GregorianCalendar();
+        StringBuilder result = new StringBuilder();
+        result.append(myCal.get(Calendar.YEAR));
+        result.append("-" + (myCal.get(Calendar.MONTH) + 1));
+        result.append("-" + myCal.get(Calendar.DAY_OF_MONTH));
+        result.append(" " + myCal.get(Calendar.HOUR_OF_DAY));
+        String min = ""+myCal.get(Calendar.MINUTE);
+        if (min.length()==1){
+            min = "0"+min;
+        }
+        result.append(":" + min);
+        return result.toString();
     }
 
     public static String lastXDays(int xDays){
