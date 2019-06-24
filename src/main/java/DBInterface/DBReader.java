@@ -1,5 +1,5 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
+package DBInterface;
+
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;

@@ -1,3 +1,5 @@
+package Businessware;
+
 public class Config {
 
     public final static String LOGFILEFOLDER = "C:\\Users\\Andy\\Documents\\Individual Project";
