@@ -9,11 +9,12 @@ public class Runner {
 //            System.out.println("Failed to insert record");
 //        }
 
-        ArrayList<String> tableContents = DBReader.sendSelectSQL("select * from new_table2 " +
-                "where dob > " + DateMaker.lastXDays(30) + ";");
-        for (String thing : tableContents){
-            System.out.print(thing);
-        }
+//        ArrayList<String> tableContents = DBReader.sendSelectSQL("select * from new_table2 " +
+//                "where dob > " + DateMaker.lastXDays(30) + ";");
+//        for (String thing : tableContents){
+//            System.out.print(thing);
+//        }
+        FrontEnd1.start();
     }
 
 }

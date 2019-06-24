@@ -5,6 +5,7 @@ public class DateMaker {
 
     public static void main(String[] args) {
         System.out.println(getCurrentDateTime());
+        System.out.println();
     }
 
     public static String getCurrentDateTime(){

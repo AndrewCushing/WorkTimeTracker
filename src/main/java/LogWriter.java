@@ -17,7 +17,7 @@ public class LogWriter {
         }
     }
 
-    public LogWriter makeLogWriter(){
+    public static LogWriter makeLogWriter(){
         if (canMake){
             return new LogWriter();
         } else {
@@ -25,11 +25,11 @@ public class LogWriter {
         }
     }
 
-    public void addToLog(String message){
+    public static void addToLog(String message){
         currentLogs.append("\n" + DateMaker.getCurrentDateTime() + " " + message);
     }
 
-    public void printToLogs(){
+    public static void printToLogs(){
         try {
             writer.write(currentLogs.toString());
             currentLogs = new StringBuilder();

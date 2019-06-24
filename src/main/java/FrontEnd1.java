@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 public class FrontEnd1 {
 
@@ -10,7 +12,7 @@ public class FrontEnd1 {
     private static Button submit;
     private static GridLayout layout;
 
-    {
+    static {
         frame = new Frame("Work time tracker");
         usrnme = new TextField();
         pswd = new TextField();
@@ -26,11 +28,46 @@ public class FrontEnd1 {
         frame.add(new Label());
         frame.add(submit);
         frame.setSize(500,500);
-        frame.setVisible(true);
+        frame.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+
+            }
+        });
     }
 
-    public void start(){
-
+    public static void start(){
+        frame.setVisible(true);
     }
 
 }
