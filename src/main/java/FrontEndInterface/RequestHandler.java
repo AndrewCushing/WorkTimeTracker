@@ -18,6 +18,9 @@ public class RequestHandler implements HttpHandler {
             case "POST":
                 PostHandler.handle(exchange);
                 break;
+            case "OPTIONS":
+                OptionsHandler.handle(exchange);
+                break;
             default:
                 exchange.close();
         }
