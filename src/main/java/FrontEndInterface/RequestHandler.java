@@ -11,6 +11,7 @@ public class RequestHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
         switch (exchange.getRequestMethod()){
             case "GET":
                 GetHandler.handle(exchange);
