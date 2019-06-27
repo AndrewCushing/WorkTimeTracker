@@ -19,6 +19,9 @@ public class MyAPI {
             server.createContext("/api/register", RequestHandler.makeRequestHandler(true, true));
             LogWriter.prepareLogs("Added handler for /api/register");
             server.createContext("/api/login", RequestHandler.makeRequestHandler(false, true));
+            LogWriter.prepareLogs("Added handler for /api/login");
+            server.createContext("/api/addEntry", RequestHandler.makeRequestHandler(false, true));
+            LogWriter.prepareLogs("Added handler for /api/login");
             server.setExecutor(null); // creates a default executor, who knows why?
             LogWriter.prepareLogs("Added default executor");
             server.start();

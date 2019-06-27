@@ -18,7 +18,7 @@ function attemptRegister(){
         let hashedPass = sha256(pass1);
         let xhr = new XMLHttpRequest();
 
-        xhr.open('PUT', 'http://localhost.:3000/api/register', true);
+        xhr.open('PUT', 'http://localhost:3000/api/register', true);
         xhr.responseType = 'text';
 
         xhr.onload = function(){

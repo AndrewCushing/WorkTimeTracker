@@ -36,6 +36,9 @@ public class RequestHandler implements HttpHandler {
                         case "/api/login":
                             CredentialsChecker.handle(exchange);
                             break;
+                        case "api/addEntry":
+                            EntryInserter.handle(exchange);
+                            break;
                         default:
                             rejectRequest(exchange);
                     }

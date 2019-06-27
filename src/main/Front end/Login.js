@@ -1,5 +1,3 @@
-import checkCredentials from "./CredentialChecker.js";
-
 /**
  * [js-sha256]{@link https://github.com/emn178/js-sha256}
  *
@@ -21,23 +19,19 @@ function attemptLogin(){
     return false;
 }
 
-function goToMyAccount(){
-    document.getElementById("loginResult").innerHTML = 'Login successful\nClick <a href="MyAccount.html">here<a> to continue'
-}
-
 function checkCredentials(){
     let email = sessionStorage.getItem('email');
     let hashedPass = sessionStorage.getItem('pass');
     let xhr = new XMLHttpRequest();
 
-    xhr.open('PUT', 'http://localhost.:3000/api/login', true);
+    xhr.open('PUT', 'http://localhost:3000/api/login', true);
     xhr.responseType = 'text';
 
     xhr.onload = function(){
         if(xhr.status === 200){
             console.log(xhr.responseText);
             if(xhr.responseText==='Access granted.'){
-                goToMyAccount();
+                document.getElementById("loginResult").innerHTML = 'Login successful\nClick <a href="MyAccount.html">here<a> to continue';
             } else if (xhr.responseText==="User does not exist.") {
                 alert('User does not exist');
                 validation = false;
