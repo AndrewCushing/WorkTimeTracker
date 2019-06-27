@@ -33,6 +33,9 @@ public class RequestHandler implements HttpHandler {
                         case "/api/register":
                             UserCreator.handle(exchange);
                             break;
+                        case "/api/login":
+                            CredentialsChecker.handle(exchange);
+                            break;
                         default:
                             rejectRequest(exchange);
                     }
@@ -48,10 +51,10 @@ public class RequestHandler implements HttpHandler {
 
     private RequestHandler(){}
 
-    public static RequestHandler makeRequestHandler(boolean whetherToAcceptGET, boolean whetherTOAcceptPUT){
+    public static RequestHandler makeRequestHandler(boolean whetherToAcceptGET, boolean whetherToAcceptPUT){
         RequestHandler jeff = new RequestHandler();
         jeff.ACCEPTGET = whetherToAcceptGET;
-        jeff.ACCEPTPUT = whetherTOAcceptPUT;
+        jeff.ACCEPTPUT = whetherToAcceptPUT;
         return jeff;
     }
 

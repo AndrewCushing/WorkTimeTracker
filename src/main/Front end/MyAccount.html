@@ -4,6 +4,13 @@
         <title>Your work time tracker</title>
     </head>
     <body id="body">
-        <h1>Stuff goes here</h1>
+        <button>Search</button>
+        <form onsubmit="return attemptRegister(this)">
+            <span>Project: </span><input type="text" required id="project"><br>
+            <span>Description: </span><input type="text" required id="description"><br>
+            <span>Date: </span><input type="date" required id="date"><br>
+            <span>No. of hours: </span><input type="number" required id="amountOfTime"><br>
+            <button>Submit</button><br>
+        </form>
     </body>
 </html>

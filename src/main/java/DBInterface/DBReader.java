@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class DBReader {
 
-    static ArrayList<String> sendSelectSQL(String sql){
+    public static ArrayList<String> sendSelectSQL(String sql){
         if (!sql.substring(0,6).equalsIgnoreCase("select")){
             return null;
         }

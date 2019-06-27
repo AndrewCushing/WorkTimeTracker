@@ -2,7 +2,6 @@ package FrontEndInterface;
 
 import Businessware.Config;
 import Businessware.LogWriter;
-import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
@@ -17,8 +16,9 @@ public class MyAPI {
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress(Config.SERVERPORT), 0);
             LogWriter.prepareLogs("Created Http server using port number " + Config.SERVERPORT);
-            HttpContext context = server.createContext("/api/register", RequestHandler.makeRequestHandler(true, true));
+            server.createContext("/api/register", RequestHandler.makeRequestHandler(true, true));
             LogWriter.prepareLogs("Added handler for /api/register");
+            server.createContext("/api/login", RequestHandler.makeRequestHandler(false, true));
             server.setExecutor(null); // creates a default executor, who knows why?
             LogWriter.prepareLogs("Added default executor");
             server.start();

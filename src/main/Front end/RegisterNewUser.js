@@ -23,7 +23,6 @@ function attemptRegister(){
 
         xhr.onload = function(){
             if(xhr.status === 200){
-                console.log("Response OK");
                 switch(xhr.responseText){
                     case '1':
                         userCreated(); break;
