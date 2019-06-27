@@ -3,41 +3,58 @@ package Businessware;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
-public class LogWriter {
+public class LogWriter implements Runnable{
 
     private static BufferedWriter writer;
-    private static StringBuilder currentLogs = new StringBuilder();
-    private static boolean canMake = true;
+    private static LogWriter logWriter;
+    private static ArrayList<String> logList = new ArrayList<>();
 
     private LogWriter(){
         try {
             writer = new BufferedWriter(new FileWriter("C:\\Users\\Andy\\Documents\\myTestLogs.txt", true));
-            canMake = false;
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    private static void destroyWriters(){
+        writer = null;
+        logWriter = null;
+    }
 
-    public static LogWriter makeLogWriter(){
-        if (canMake){
-            return new LogWriter();
-        } else {
-            return null;
+    public static LogWriter prepareLogs(String logsToWrite){
+        if (logWriter==null){
+            logWriter = new LogWriter();
         }
+        addToLog(logsToWrite);
+        return logWriter;
     }
 
-    public static void addToLog(String message){
-        currentLogs.append("\n" + DateMaker.getCurrentDateTime() + " " + message);
+    private static void addToLog(String message){
+        logList.add(message);
     }
 
-    public static void printToLogs(){
+    private static void printToLogs(){
+        StringBuilder logs = new StringBuilder();
+        String date = DateMaker.getCurrentDateTime();
+        for (String log : logList){
+            logs.append("\n");
+            logs.append(date);
+            logs.append(" ");
+            logs.append(log);
+        }
         try {
-            writer.write(currentLogs.toString());
-            currentLogs = new StringBuilder();
+            writer.write(logs.toString());
+            writer.close();
+            destroyWriters();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    @Override
+    public void run() {
+        printToLogs();
+    }
 }

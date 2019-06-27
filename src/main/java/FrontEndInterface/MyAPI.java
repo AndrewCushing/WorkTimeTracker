@@ -1,5 +1,7 @@
 package FrontEndInterface;
 
+import Businessware.Config;
+import Businessware.LogWriter;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpServer;
 
@@ -11,12 +13,20 @@ import java.util.Map;
 public class MyAPI {
 
     public static void main(String[] args) throws IOException {
-        int serverPort = 8000;
-        HttpServer server = HttpServer.create(new InetSocketAddress(serverPort), 0);
-        HttpContext context = server.createContext("/api/hello", RequestHandler.makeRequestHandler());
-//        context.setAuthenticator(new Authenticator("blah"));
-        server.setExecutor(null); // creates a default executor
-        server.start();
+        LogWriter.prepareLogs("-------------------------------------------------------------------------------");
+        try {
+            HttpServer server = HttpServer.create(new InetSocketAddress(Config.SERVERPORT), 0);
+            LogWriter.prepareLogs("Created Http server using port number " + Config.SERVERPORT);
+            HttpContext context = server.createContext("/api/register", RequestHandler.makeRequestHandler(true, true));
+            LogWriter.prepareLogs("Added handler for /api/hello");
+            server.setExecutor(null); // creates a default executor
+            LogWriter.prepareLogs("Added default executor");
+            server.start();
+            LogWriter.prepareLogs("Started server successfully").run();
+        } catch (Exception e){
+            LogWriter.prepareLogs("Error while creating/starting server");
+            LogWriter.prepareLogs(e.getMessage()).run();
+        }
     }
 
     public static Map<String, String> splitQuery(String query) {

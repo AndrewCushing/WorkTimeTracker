@@ -1,5 +1,6 @@
 package FrontEndInterface;
 
+import Businessware.LogWriter;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
@@ -7,32 +8,54 @@ import java.io.IOException;
 
 public class RequestHandler implements HttpHandler {
 
-    private static RequestHandler singleton;
+    private boolean ACCEPTGET = false;
+    private boolean ACCEPTPOST = false;
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        String requestMethod = exchange.getRequestMethod();
+        LogWriter.prepareLogs("Received request of type " + requestMethod);
         exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
-        switch (exchange.getRequestMethod()){
+        LogWriter.prepareLogs("Added response headers to allow all origins").run();
+        switch (requestMethod){
             case "GET":
-                GetHandler.handle(exchange);
+                if (ACCEPTGET){
+                    GetHandler.handle(exchange);
+                } else {
+                    rejectRequest(exchange);
+                }
                 break;
-            case "POST":
-                PostHandler.handle(exchange);
+            case "PUT":
+                if (!ACCEPTPOST){
+                    rejectRequest(exchange);
+                } else {
+                    switch(exchange.getRequestURI().toString()){
+                        case "/api/register":
+                            UserCreator.handle(exchange);
+                        default:
+                            rejectRequest(exchange);
+                    }
+                }
                 break;
             case "OPTIONS":
                 OptionsHandler.handle(exchange);
                 break;
             default:
-                exchange.close();
+                rejectRequest(exchange);
         }
     }
 
     private RequestHandler(){}
 
-    public static RequestHandler makeRequestHandler(){
-        if (singleton == null){
-            singleton = new RequestHandler();
-        }
-        return singleton;
+    public static RequestHandler makeRequestHandler(boolean whetherToAcceptGET, boolean whetherTOAcceptPOST){
+        RequestHandler jeff = new RequestHandler();
+        jeff.ACCEPTGET = whetherToAcceptGET;
+        jeff.ACCEPTPOST = whetherTOAcceptPOST;
+        return jeff;
+    }
+
+    private void rejectRequest(HttpExchange exchange){
+        LogWriter.prepareLogs("This type of request is not valid for the current address. Closing connection.").run();
+        exchange.close();
     }
 }

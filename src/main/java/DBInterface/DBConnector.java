@@ -21,9 +21,9 @@ public class DBConnector {
             Class.forName("com.mysql.cj.jdbc.Driver");
             System.out.println("Did class thing");
             con= DriverManager.getConnection(Config.DBLOCATION,"root","password");
-            System.out.println("Connection canMake");
+            System.out.println("Connection made");
             Statement stmt=con.createStatement();
-            System.out.println("Statement canMake");
+            System.out.println("Statement made");
             connected = true;
             return stmt;
         } catch (Exception e){
