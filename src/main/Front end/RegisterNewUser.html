@@ -1,0 +1,15 @@
+<html>
+    <head>
+            <script src="RegisterNewUser.js"></script>
+        <title>Register an account for work time tracker</title>
+    </head>
+    <body>
+        <form onsubmit="return attemptRegister(this)">
+            <span>Email: </span><input type="email" required id="emailInput"><br>
+            <span>Password: </span><input type="password" required id="passwordInput"><br>
+            <span>Confirm password: </span><input type="password" required id="confirmPasswordInput"><br>
+            <button>Register</button><br>
+        </form>
+        <h2 id="registrationResult"></h2>
+    </body>
+</html>
