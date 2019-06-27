@@ -35,24 +35,21 @@ public class UserCreator {
         String[] usernameAndPassword = br.readLine().split(":");
         try{
             DBWriter.insertRecord("users", "'" + usernameAndPassword[0] + "','" + usernameAndPassword[1] + "'");
-            String respText = "User created";
-            exchange.sendResponseHeaders(200, respText.getBytes().length);
-            exchange.getResponseBody().write(respText.getBytes());
-            exchange.getResponseBody().flush();
+            respond("User created", exchange);
         } catch (SQLException se){
-            String respText = "Invalid username or password";
-            exchange.sendResponseHeaders(200, respText.getBytes().length);
-            exchange.getResponseBody().write(respText.getBytes());
-            exchange.getResponseBody().flush();
+            respond("Invalid username or password", exchange);
         } catch (Exception e){
-            String respText = "Unable to create user\n"+e.getMessage();
-            exchange.sendResponseHeaders(200, respText.getBytes().length);
-            exchange.getResponseBody().write(respText.getBytes());
-            exchange.getResponseBody().flush();
+            respond("Unable to create user\n"+e.getMessage(),exchange);
             System.out.println(e.getMessage());
         }
         exchange.close();
         LogWriter.prepareLogs("PUT request reached PUT handler class and was dealt with accordingly").run();
+    }
+
+    private static void respond(String responseText, HttpExchange exchange) throws IOException{
+        exchange.sendResponseHeaders(200, responseText.getBytes().length);
+        exchange.getResponseBody().write(responseText.getBytes());
+        exchange.getResponseBody().flush();
     }
 
 }
