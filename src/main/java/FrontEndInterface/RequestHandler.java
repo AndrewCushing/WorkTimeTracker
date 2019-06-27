@@ -9,7 +9,7 @@ import java.io.IOException;
 public class RequestHandler implements HttpHandler {
 
     private boolean ACCEPTGET = false;
-    private boolean ACCEPTPOST = false;
+    private boolean ACCEPTPUT = false;
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -26,12 +26,13 @@ public class RequestHandler implements HttpHandler {
                 }
                 break;
             case "PUT":
-                if (!ACCEPTPOST){
+                if (!ACCEPTPUT){
                     rejectRequest(exchange);
                 } else {
                     switch(exchange.getRequestURI().toString()){
                         case "/api/register":
                             UserCreator.handle(exchange);
+                            break;
                         default:
                             rejectRequest(exchange);
                     }
@@ -47,10 +48,10 @@ public class RequestHandler implements HttpHandler {
 
     private RequestHandler(){}
 
-    public static RequestHandler makeRequestHandler(boolean whetherToAcceptGET, boolean whetherTOAcceptPOST){
+    public static RequestHandler makeRequestHandler(boolean whetherToAcceptGET, boolean whetherTOAcceptPUT){
         RequestHandler jeff = new RequestHandler();
         jeff.ACCEPTGET = whetherToAcceptGET;
-        jeff.ACCEPTPOST = whetherTOAcceptPOST;
+        jeff.ACCEPTPUT = whetherTOAcceptPUT;
         return jeff;
     }
 

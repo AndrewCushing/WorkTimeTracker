@@ -1,21 +1,17 @@
 package DBInterface;
 
-import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DBWriter {
 
-    public static void insertRecord(String table, String values) throws SQLException {
+    public static void insertRecord(String table, String values) throws Exception {
+        Statement stmnt;
+        stmnt = DBConnector.openConnection();
         try {
-            System.out.println(1);
-            Statement stmnt = DBConnector.openConnection();
-            System.out.println(2);
             stmnt.executeUpdate(getInsertionStringUsers(values));
-            System.out.println("Query sent");
-            DBConnector.closeConnection();
         } catch (Exception e){
-            System.out.println("Failed to send query");
-            System.out.println(e.getMessage());
+            throw new UserAlreadyExistsException("Cannot create new user, this user already exists");
+        } finally {
             DBConnector.closeConnection();
         }
     }

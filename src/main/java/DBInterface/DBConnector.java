@@ -1,6 +1,7 @@
 package DBInterface;
 
 import Businessware.Config;
+import Businessware.LogWriter;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,20 +11,24 @@ import java.sql.Statement;
 public class DBConnector {
 
     private static Connection con;
+    private static Statement stmt;
     private static boolean connected = false;
 
     static Statement openConnection(){
         if (connected){
-            System.out.println("Already connected to db, please close previous connection before tring to open a new one.");
-            return null;
+            LogWriter.prepareLogs("Already connected to db, please close previous connection before trying to open a new one.");
+            return stmt;
         }
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            System.out.println("Did class thing");
-            con= DriverManager.getConnection(Config.DBLOCATION,"root","password");
-            System.out.println("Connection made");
-            Statement stmt=con.createStatement();
-            System.out.println("Statement made");
+            LogWriter.prepareLogs("Did class thing. About to attempt to connect to database");
+            try {
+                con = DriverManager.getConnection(Config.DBLOCATION, "root", "password");
+                LogWriter.prepareLogs("Successfully initiated connection with database");
+            } catch (Exception e){
+                LogWriter.prepareLogs("Failed to initial connection with database");
+            }
+            stmt=con.createStatement();
             connected = true;
             return stmt;
         } catch (Exception e){

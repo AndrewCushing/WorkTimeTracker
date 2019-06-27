@@ -18,8 +18,8 @@ public class MyAPI {
             HttpServer server = HttpServer.create(new InetSocketAddress(Config.SERVERPORT), 0);
             LogWriter.prepareLogs("Created Http server using port number " + Config.SERVERPORT);
             HttpContext context = server.createContext("/api/register", RequestHandler.makeRequestHandler(true, true));
-            LogWriter.prepareLogs("Added handler for /api/hello");
-            server.setExecutor(null); // creates a default executor
+            LogWriter.prepareLogs("Added handler for /api/register");
+            server.setExecutor(null); // creates a default executor, who knows why?
             LogWriter.prepareLogs("Added default executor");
             server.start();
             LogWriter.prepareLogs("Started server successfully").run();
