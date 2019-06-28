@@ -49,8 +49,7 @@ CREATE TABLE `work_time_tracker`.`entries` (
   `Project` VARCHAR(75) NOT NULL,
   `Description` VARCHAR(500) NOT NULL,
   `date` date NOT NULL,
-  `time` int,
-  PRIMARY KEY (`User_ID`))
+  `time` int)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
 
@@ -58,8 +57,8 @@ describe entries;
 
 select ID from users where password='688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6';
 
-select * from entries;
+select project from entries where user_id=35 group by project;
 
 commit;
 
-alter table entries drop primary key;
+select * from entries;
