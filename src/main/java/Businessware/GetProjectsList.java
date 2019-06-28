@@ -1,6 +1,5 @@
-package FrontEndInterface;
+package Businessware;
 
-import Businessware.LogWriter;
 import DBInterface.DBReader;
 import com.sun.net.httpserver.HttpExchange;
 

@@ -1,4 +1,4 @@
-package FrontEndInterface;
+package Businessware;
 
 import DBInterface.DBReader;
 import com.sun.net.httpserver.HttpExchange;
@@ -6,8 +6,8 @@ import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static FrontEndInterface.ExchangeHandler.getValues;
-import static FrontEndInterface.UserCreator.respond;
+import static Businessware.ExchangeHandler.getValues;
+import static Businessware.UserCreator.respond;
 
 public class CredentialsChecker {
 

@@ -35,12 +35,14 @@ function getProjects(){
             if(xhr.status === 200){
                 let projects = xhr.responseText.split(' :');
                 let selectionForm = document.getElementById("resultsGoHere");
-                let selectString = '<select name="Projects">';
+                let selectString = '<br><br><form onsubmit="return findProjectSummary(this)">';
+                selectString += '<select name="Projects">';
                 for (let project in projects){
                     selectString += '<option>' + projects[project] + '</option>';
                 }
-                selectString += '</select>';
-                selectString += '</select>';
+                selectString += '</select><br><br>';
+                selectString += '<button>Get Summary</button>';
+                selectString += '</form><br><br>';
                 selectionForm.innerHTML += selectString;
             }
         }
@@ -48,3 +50,9 @@ function getProjects(){
     }  
 }
 checkCredentials();
+
+function findProjectSummary(formData){
+    let projectSelection = formData.Projects.value;
+    
+    return false;
+}

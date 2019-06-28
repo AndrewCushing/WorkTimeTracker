@@ -13,7 +13,7 @@ public class LogWriter implements Runnable{
 
     private LogWriter(){
         try {
-            writer = new BufferedWriter(new FileWriter("C:\\Users\\Andy\\Documents\\myTestLogs.txt", true));
+            writer = new BufferedWriter(new FileWriter(Config.LOG_FILE_PATH, true));
         } catch (IOException e) {
             e.printStackTrace();
         }

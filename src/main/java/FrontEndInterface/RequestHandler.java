@@ -1,7 +1,6 @@
 package FrontEndInterface;
 
-import Businessware.Config;
-import Businessware.LogWriter;
+import Businessware.*;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
@@ -43,6 +42,9 @@ public class RequestHandler implements HttpHandler {
                             break;
                         case Config.GET_PROJECTS_PATH:
                             GetProjectsList.handle(exchange);
+                            break;
+                        case Config.SUMMARY_PATH:
+                            GetProjectSummary.handle(exchange);
                             break;
                         default:
                             rejectRequest(exchange);

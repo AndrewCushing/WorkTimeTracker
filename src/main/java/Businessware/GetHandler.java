@@ -1,10 +1,10 @@
-package FrontEndInterface;
+package Businessware;
 
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
 
-import static FrontEndInterface.UserCreator.respond;
+import static Businessware.UserCreator.respond;
 
 public class GetHandler {
 

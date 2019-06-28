@@ -55,10 +55,12 @@ AUTO_INCREMENT = 1;
 
 describe entries;
 
-select ID from users where password='688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6';
+select ID from users where username='test123@blah';
 
-select project from entries where user_id=35 group by project;
+select project from entries where user_id=(select ID from users where username='test123@blah') group by project;
 
 commit;
 
 select * from entries;
+
+select * from entries where user_id=(select ID from users where username='test123@blah') and project='test project' group by description;
