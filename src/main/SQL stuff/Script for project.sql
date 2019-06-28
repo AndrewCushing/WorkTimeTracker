@@ -54,3 +54,12 @@ CREATE TABLE `work_time_tracker`.`entries` (
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
 
+describe entries;
+
+select ID from users where password='688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6';
+
+select * from entries;
+
+commit;
+
+alter table entries drop primary key;

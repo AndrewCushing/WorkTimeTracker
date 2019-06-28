@@ -1,36 +1,32 @@
 package DBInterface;
 
+import Businessware.LogWriter;
+
 import java.sql.Statement;
 
 public class DBWriter {
 
-    private static Statement stmnt;
+    public static void insertRecord(String table, String[] hashedPassAndValues) throws Exception {
 
-    public static void insertRecord(String table, String values) throws Exception {
-        stmnt = DBConnector.openConnection();
         switch (table){
             case "user":
-                insertNewUser(values);
+                insertNewUser(hashedPassAndValues);
                 break;
             case "entries":
-                insertNewEntry(values);
+                insertNewEntry(hashedPassAndValues);
                 break;
         }
     }
 
-    private static void insertNewUser(String values) throws Exception{
+    private static void insertNewEntry(String[] hashedPassAndValues) throws Exception{
         try {
-            stmnt.executeUpdate(getInsertionStringUsers(values));
-        } catch (Exception e){
-            throw new UserAlreadyExistsException("Cannot create new user, this user already exists");
-        } finally {
-            DBConnector.closeConnection();
-        }
-    }
-
-    private static void insertNewEntry(String values) throws Exception{
-        try {
-            stmnt.executeUpdate(getInsertionStringEntry(values));
+            LogWriter.prepareLogs("Attempting to retrieve user ID associated with current password");
+            String userID = DBReader.sendSelectSQL("select ID from users where password='" + hashedPassAndValues[0] + "';").get(0);
+            LogWriter.prepareLogs("Successfully retrieved user ID");
+            LogWriter.prepareLogs("Attempting to insert entry");
+            Statement stmnt = DBConnector.openConnection();
+            stmnt.executeUpdate(getInsertionStringEntry(userID, hashedPassAndValues));
+            LogWriter.prepareLogs("Successfully inserted new entry into database");
         } catch (Exception e){
             throw e;
         } finally {
@@ -38,12 +34,24 @@ public class DBWriter {
         }
     }
 
-    private static String getInsertionStringUsers(String values){
-        return "insert into users (username, password) values (" + values + ")";
+    private static void insertNewUser(String[] hashedPassAndValues) throws Exception{
+        try {
+            Statement stmnt = DBConnector.openConnection();
+            stmnt.executeUpdate(getInsertionStringUsers(hashedPassAndValues[0],hashedPassAndValues[1]));
+        } catch (Exception e){
+            LogWriter.prepareLogs("Unable to insert new user into database");
+            throw e;
+        } finally {
+            DBConnector.closeConnection();
+        }
     }
 
-    private static String getInsertionStringEntry(String values){
-        return "insert into entries values (" + ")";
+    private static String getInsertionStringUsers(String email, String password){
+        return "insert into users (username, password) values ('" + email + "','" + password + "');";
+    }
+
+    private static String getInsertionStringEntry(String userID, String[] values){
+        return "insert into entries values (" + userID + ",'" + values[1] + "','" +  values[2] + "','" + values[3] + "'," + values[4] + ");";
     }
 
 }

@@ -16,7 +16,7 @@ public class DBConnector {
 
     static Statement openConnection(){
         if (connected){
-            LogWriter.prepareLogs("Already connected to db, please close previous connection before trying to open a new one.");
+            LogWriter.prepareLogs("Already connected to db").run();
             return stmt;
         }
         try{
@@ -24,9 +24,9 @@ public class DBConnector {
             LogWriter.prepareLogs("Did class thing. About to attempt to connect to database");
             try {
                 con = DriverManager.getConnection(Config.DBLOCATION, "root", "password");
-                LogWriter.prepareLogs("Successfully initiated connection with database");
+                LogWriter.prepareLogs("Successfully initiated connection with database").run();
             } catch (Exception e){
-                LogWriter.prepareLogs("Failed to initial connection with database");
+                LogWriter.prepareLogs("Failed to initial connection with database").run();
             }
             stmt=con.createStatement();
             connected = true;
@@ -42,7 +42,7 @@ public class DBConnector {
             con.close();
             connected = false;
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogWriter.prepareLogs(e.getMessage());
             System.out.println("Failed to close connection with DB");
         }
 

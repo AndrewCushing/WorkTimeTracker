@@ -14,7 +14,8 @@ public class RequestHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String requestMethod = exchange.getRequestMethod();
-        LogWriter.prepareLogs("Received request of type " + requestMethod);
+        LogWriter.prepareLogs("Received request of type " + requestMethod + " for address "
+                + exchange.getRequestURI().toString());
         exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
         LogWriter.prepareLogs("Added response headers to allow all origins").run();
         switch (requestMethod){
@@ -36,7 +37,7 @@ public class RequestHandler implements HttpHandler {
                         case "/api/login":
                             CredentialsChecker.handle(exchange);
                             break;
-                        case "api/addEntry":
+                        case "/api/addEntry":
                             EntryInserter.handle(exchange);
                             break;
                         default:

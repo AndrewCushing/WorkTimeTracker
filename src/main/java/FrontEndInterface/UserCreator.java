@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserCreator {
+public class UserCreator extends ExchangeHandler {
 
     private static Map<String, String> getParams(String rawParams){
         if (rawParams == null || rawParams == ""){
@@ -36,7 +36,7 @@ public class UserCreator {
         String[] usernameAndPassword = br.readLine().split(":");
         try{
             LogWriter.prepareLogs("Attempting to create new user in database");
-            DBWriter.insertRecord("users", "'" + usernameAndPassword[0] + "','" + usernameAndPassword[1] + "'");
+            DBWriter.insertRecord("users", usernameAndPassword);
             LogWriter.prepareLogs("User " + usernameAndPassword[0] + " inserted into database successfully");
             respond("1", exchange);
             LogWriter.prepareLogs("Sent appropriate response");
@@ -55,12 +55,6 @@ public class UserCreator {
         }
         exchange.close();
         LogWriter.prepareLogs("PUT request reached PUT handler class and was dealt with accordingly").run();
-    }
-
-    public static void respond(String responseText, HttpExchange exchange) throws IOException{
-        exchange.sendResponseHeaders(200, responseText.getBytes().length);
-        exchange.getResponseBody().write(responseText.getBytes());
-        exchange.getResponseBody().flush();
     }
 
 }
