@@ -1,5 +1,6 @@
 package FrontEndInterface;
 
+import Businessware.Config;
 import Businessware.LogWriter;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -31,14 +32,17 @@ public class RequestHandler implements HttpHandler {
                     rejectRequest(exchange);
                 } else {
                     switch(exchange.getRequestURI().toString()){
-                        case "/api/register":
+                        case Config.REGISTER_PATH:
                             UserCreator.handle(exchange);
                             break;
-                        case "/api/login":
+                        case Config.LOGIN_PATH:
                             CredentialsChecker.handle(exchange);
                             break;
-                        case "/api/addEntry":
+                        case Config.ADD_ENTRY_PATH:
                             EntryInserter.handle(exchange);
+                            break;
+                        case Config.GET_PROJECTS_PATH:
+                            GetProjectsList.handle(exchange);
                             break;
                         default:
                             rejectRequest(exchange);

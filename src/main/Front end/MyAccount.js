@@ -27,7 +27,7 @@ checkCredentials();
 
 function submitEntry(){
     if(validCredentials){
-        let hashedPass = sessionStorage.getItem('pass');
+        let email = sessionStorage.getItem('email');
         let project = document.getElementById("project").value;
         let description = document.getElementById("description").value;
         let date = document.getElementById("date").value;
@@ -38,11 +38,17 @@ function submitEntry(){
         xhr.onload = function(){
             if(xhr.status === 200){
                 console.log(xhr.responseText);
-                document.getElementById("insertionResult").innerText = xhr.responseText;
+                document.getElementById("insertionResult").innerHTML = xhr.responseText;
                 return false;
             }
         };
-        xhr.send(hashedPass+":"+project+":"+description+":"+date+":"+hours);
+        xhr.send(email+":"+project+":"+description+":"+date+":"+hours);
+    } else {
+        alert("Please log in first");
+        return false;
     }
-    return false;
+}
+
+function goToSearchPage(){
+    window.location = "Search.html";
 }

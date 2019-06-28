@@ -14,12 +14,14 @@ public class MyAPI {
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress(Config.SERVERPORT), 0);
             LogWriter.prepareLogs("Created Http server using port number " + Config.SERVERPORT);
-            server.createContext("/api/register", RequestHandler.makeRequestHandler(true, true));
-            LogWriter.prepareLogs("Added handler for /api/register");
-            server.createContext("/api/login", RequestHandler.makeRequestHandler(false, true));
-            LogWriter.prepareLogs("Added handler for /api/login");
-            server.createContext("/api/addEntry", RequestHandler.makeRequestHandler(false, true));
-            LogWriter.prepareLogs("Added handler for /api/addEntry");
+            server.createContext(Config.REGISTER_PATH, RequestHandler.makeRequestHandler(true, true));
+            LogWriter.prepareLogs("Added handler for " + Config.REGISTER_PATH);
+            server.createContext(Config.LOGIN_PATH, RequestHandler.makeRequestHandler(false, true));
+            LogWriter.prepareLogs("Added handler for " + Config.LOGIN_PATH);
+            server.createContext(Config.ADD_ENTRY_PATH, RequestHandler.makeRequestHandler(false, true));
+            LogWriter.prepareLogs("Added handler for " + Config.ADD_ENTRY_PATH);
+            server.createContext(Config.GET_PROJECTS_PATH, RequestHandler.makeRequestHandler(false, true));
+            LogWriter.prepareLogs("Added handler for " + Config.GET_PROJECTS_PATH);
             server.setExecutor(null); // creates a default executor, who knows why?
             LogWriter.prepareLogs("Added default executor");
             server.start();

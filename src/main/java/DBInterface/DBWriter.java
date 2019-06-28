@@ -21,10 +21,11 @@ public class DBWriter {
     private static void insertNewEntry(String[] hashedPassAndValues) throws Exception{
         try {
             LogWriter.prepareLogs("Attempting to retrieve user ID associated with current password");
-            String userID = DBReader.sendSelectSQL("select ID from users where password='" + hashedPassAndValues[0] + "';").get(0);
+
             LogWriter.prepareLogs("Successfully retrieved user ID");
             LogWriter.prepareLogs("Attempting to insert entry");
             Statement stmnt = DBConnector.openConnection();
+            String userID = getUserIDFromEmail(hashedPassAndValues[0]);
             stmnt.executeUpdate(getInsertionStringEntry(userID, hashedPassAndValues));
             LogWriter.prepareLogs("Successfully inserted new entry into database");
         } catch (Exception e){
@@ -44,6 +45,10 @@ public class DBWriter {
         } finally {
             DBConnector.closeConnection();
         }
+    }
+
+    private static String getUserIDFromEmail(String email){
+        return DBReader.sendSelectSQL("select ID from users where username='" + email + "';").get(0);
     }
 
     private static String getInsertionStringUsers(String email, String password){

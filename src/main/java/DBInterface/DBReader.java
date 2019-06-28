@@ -1,5 +1,7 @@
 package DBInterface;
 
+import Businessware.LogWriter;
+
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -13,16 +15,21 @@ public class DBReader {
         try{
             Statement stmt=DBConnector.openConnection();
             ResultSet rs=stmt.executeQuery(sql);
-            System.out.println("Query sent");
+            LogWriter.prepareLogs("Select query sent").run();
             ArrayList<String> result = new ArrayList<>();
             putResults(result, rs);
             DBConnector.closeConnection();
             return result;
         } catch (Exception e){
-            System.out.println("Failed to send query");
+            LogWriter.prepareLogs("Failed to send query").run();
             DBConnector.closeConnection();
             return null;
         }
+    }
+
+    public static ArrayList<String> getProjectList(String email){
+        String userID = getUserIDFromEmail(email);
+        return sendSelectSQL("select project from entries where user_id=" + userID + " group by project;");
     }
 
     private static void putResults(ArrayList<String> listToHoldResults, ResultSet setOfResults){
@@ -37,5 +44,9 @@ public class DBReader {
                 }
             }
         } catch (Exception e){}
+    }
+
+    private static String getUserIDFromEmail(String email){
+        return DBReader.sendSelectSQL("select ID from users where username='" + email + "';").get(0);
     }
 }

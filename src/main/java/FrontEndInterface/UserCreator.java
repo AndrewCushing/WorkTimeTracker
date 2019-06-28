@@ -5,9 +5,7 @@ import DBInterface.DBWriter;
 import DBInterface.UserAlreadyExistsException;
 import com.sun.net.httpserver.HttpExchange;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,9 +29,7 @@ public class UserCreator extends ExchangeHandler {
     }
 
     public static void handle(HttpExchange exchange) throws IOException {
-//        Map<String, String> params = getParams(exchange.getRequestURI().getRawQuery());
-        BufferedReader br = new BufferedReader(new InputStreamReader(exchange.getRequestBody()));
-        String[] usernameAndPassword = br.readLine().split(":");
+        String[] usernameAndPassword = getValues(exchange);
         try{
             LogWriter.prepareLogs("Attempting to create new user in database");
             DBWriter.insertRecord("users", usernameAndPassword);
