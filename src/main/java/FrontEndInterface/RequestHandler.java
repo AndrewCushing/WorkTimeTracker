@@ -46,6 +46,9 @@ public class RequestHandler implements HttpHandler {
                         case Config.SUMMARY_PATH:
                             GetProjectSummary.handle(exchange);
                             break;
+                        case Config.GET_ALL_ENTRIES:
+                            GetAllEntries.handle(exchange);
+                            break;
                         default:
                             rejectRequest(exchange);
                     }

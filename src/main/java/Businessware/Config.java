@@ -10,5 +10,6 @@ public class Config {
     public final static String LOGIN_PATH = "/api/login";
     public final static String REGISTER_PATH = "/api/register";
     public final static String SUMMARY_PATH = "/api/summaryByProject";
+    public final static String GET_ALL_ENTRIES = "/api/getAllEntries";
 
 }

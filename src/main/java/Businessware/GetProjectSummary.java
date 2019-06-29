@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class GetProjectSummary extends ExchangeHandler {
 
     public static void handle(HttpExchange exchange) throws IOException {
-        LogWriter.prepareLogs("Got to handler for project summary with input " + exchange.getRequestBody()).run();
         String email = "";
         String project = "";
         try {
