@@ -11,5 +11,7 @@ public class Config {
     public final static String REGISTER_PATH = "/api/register";
     public final static String SUMMARY_PATH = "/api/summaryByProject";
     public final static String GET_ALL_ENTRIES = "/api/getAllEntries";
+    public final static String UPDATE_ENTRY = "/api/updateEntry";
+    public final static String DELETE_ENTRY = "/api/deleteEntry";
 
 }

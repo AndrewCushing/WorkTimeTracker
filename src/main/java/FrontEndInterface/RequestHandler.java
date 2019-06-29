@@ -49,6 +49,12 @@ public class RequestHandler implements HttpHandler {
                         case Config.GET_ALL_ENTRIES:
                             GetAllEntries.handle(exchange);
                             break;
+                        case Config.DELETE_ENTRY:
+                            GetAllEntries.handle(exchange);
+                            break;
+                        case Config.UPDATE_ENTRY:
+                            GetAllEntries.handle(exchange);
+                            break;
                         default:
                             rejectRequest(exchange);
                     }

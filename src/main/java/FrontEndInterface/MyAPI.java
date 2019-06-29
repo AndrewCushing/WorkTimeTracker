@@ -4,28 +4,24 @@ import Businessware.Config;
 import Businessware.LogWriter;
 import com.sun.net.httpserver.HttpServer;
 
-import java.io.IOException;
 import java.net.InetSocketAddress;
 
 public class MyAPI {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         LogWriter.prepareLogs("-------------------------------------------------------------------------------");
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress(Config.SERVERPORT), 0);
             LogWriter.prepareLogs("Created Http server using port number " + Config.SERVERPORT);
-            server.createContext(Config.REGISTER_PATH, RequestHandler.makeRequestHandler(false, true));
-            LogWriter.prepareLogs("Added handler for " + Config.REGISTER_PATH);
-            server.createContext(Config.LOGIN_PATH, RequestHandler.makeRequestHandler(false, true));
-            LogWriter.prepareLogs("Added handler for " + Config.LOGIN_PATH);
-            server.createContext(Config.ADD_ENTRY_PATH, RequestHandler.makeRequestHandler(false, true));
-            LogWriter.prepareLogs("Added handler for " + Config.ADD_ENTRY_PATH);
-            server.createContext(Config.GET_PROJECTS_PATH, RequestHandler.makeRequestHandler(false, true));
-            LogWriter.prepareLogs("Added handler for " + Config.GET_PROJECTS_PATH);
-            server.createContext(Config.SUMMARY_PATH, RequestHandler.makeRequestHandler(false, true));
-            LogWriter.prepareLogs("Added handler for " + Config.SUMMARY_PATH);
-            server.createContext(Config.GET_ALL_ENTRIES, RequestHandler.makeRequestHandler(false, true));
-            LogWriter.prepareLogs("Added handler for " + Config.GET_ALL_ENTRIES);
+            addPath(server, Config.REGISTER_PATH, false, true);
+            addPath(server, Config.LOGIN_PATH, false, true);
+            addPath(server, Config.ADD_ENTRY_PATH, false, true);
+            addPath(server, Config.GET_PROJECTS_PATH, false, true);
+            addPath(server, Config.SUMMARY_PATH, false, true);
+            addPath(server, Config.GET_ALL_ENTRIES, false, true);
+            addPath(server, Config.REGISTER_PATH, false, true);
+            addPath(server, Config.DELETE_ENTRY, false, true);
+            addPath(server, Config.UPDATE_ENTRY, false, true);
             server.setExecutor(null); // creates a default executor, who knows why?
             LogWriter.prepareLogs("Added default executor");
             server.start();
@@ -34,5 +30,10 @@ public class MyAPI {
             LogWriter.prepareLogs("Error while creating/starting server");
             LogWriter.prepareLogs(e.getMessage()).run();
         }
+    }
+
+    private static void addPath(HttpServer server, String path, boolean acceptGet, boolean acceptPut){
+        server.createContext(path, RequestHandler.makeRequestHandler(acceptGet, acceptPut));
+        LogWriter.prepareLogs("Added handler for " + path);
     }
 }

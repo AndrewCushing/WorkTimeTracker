@@ -100,8 +100,8 @@ function getAllEntries(){
                     '<th>Delete</th></tr>';
                 for (let i = 0 ; i < summaryInfo.length ; i+=4){
                     summaryString += "<tr><td>" + summaryInfo[i] + "</td><td>" + summaryInfo[i+1] + "</td><td>" + summaryInfo[i+2] + 
-                        '</td><td><button class="' + summaryInfo[i+3] + '">Edit</button></td><td><button class="' + summaryInfo[i+3] + 
-                        '">Delete</button></td></tr>';
+                        '</td><td><button onclick="editRecord(' + summaryInfo[i+3] + ')">Edit</button></td><td><button' + 
+                        ' onclick="deleteRecord(' + summaryInfo[i+3] + ')">Delete</button></td></tr>';
                 }
                 summaryString += '</table><br><br>';
                 summarySpace.innerHTML = summaryString;
@@ -110,6 +110,10 @@ function getAllEntries(){
         xhr.send(email + ":" + projectSelection);
     }
     return false;
+}
+
+function editRecord(recordID){
+    console.log(recordID);
 }
 
 function goToMyAccount(){
