@@ -27,7 +27,9 @@ abstract class ExchangeHandler {
 
     protected static String[] getValues(HttpExchange exchange) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(exchange.getRequestBody()));
-        return br.readLine().split(":");
+        String body = br.readLine();
+        LogWriter.prepareLogs("Received: " + body);
+        return body.split(":");
     }
 
 }

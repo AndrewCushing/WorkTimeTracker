@@ -22,6 +22,8 @@ public class MyAPI {
             LogWriter.prepareLogs("Added handler for " + Config.ADD_ENTRY_PATH);
             server.createContext(Config.GET_PROJECTS_PATH, RequestHandler.makeRequestHandler(false, true));
             LogWriter.prepareLogs("Added handler for " + Config.GET_PROJECTS_PATH);
+            server.createContext(Config.SUMMARY_PATH, RequestHandler.makeRequestHandler(false, true));
+            LogWriter.prepareLogs("Added handler for " + Config.SUMMARY_PATH);
             server.setExecutor(null); // creates a default executor, who knows why?
             LogWriter.prepareLogs("Added default executor");
             server.start();
