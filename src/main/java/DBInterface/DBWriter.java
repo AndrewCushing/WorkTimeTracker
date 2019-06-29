@@ -2,6 +2,7 @@ package DBInterface;
 
 import Businessware.LogWriter;
 
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DBWriter {
@@ -16,6 +17,13 @@ public class DBWriter {
                 insertNewEntry(hashedPassAndValues);
                 break;
         }
+    }
+
+    public static void deleteEntry(String entryID, String email, String hashedPass) throws SQLException {
+        LogWriter.prepareLogs("About to attempt deletion of record").run();
+        Statement stmnt = DBConnector.openConnection();
+        stmnt.executeUpdate("delete from entries where entry_id=" + entryID + " and user_id=(select user_id from" +
+                " users where username='" + email + "' and password='" + hashedPass + "');");
     }
 
     private static void insertNewEntry(String[] hashedPassAndValues) throws Exception{
@@ -60,7 +68,7 @@ public class DBWriter {
     }
 
     private static String getInsertionStringEntry(String userID, String[] values){
-        return "insert into entries values (" + userID + ",'" + values[1] + "','" +  values[2] + "','" + values[3] + "'," + values[4] + ");";
+        return "insert into entries (user_id, project, description, date, time) values (" + userID + ",'" + values[1] + "','" +  values[2] + "','" + values[3] + "'," + values[4] + ");";
     }
 
 }

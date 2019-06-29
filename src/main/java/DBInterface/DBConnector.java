@@ -32,7 +32,7 @@ public class DBConnector {
             connected = true;
             return stmt;
         } catch (Exception e){
-            e.printStackTrace();
+            LogWriter.prepareLogs(e.getMessage()).run();
             return null;
         }
     }

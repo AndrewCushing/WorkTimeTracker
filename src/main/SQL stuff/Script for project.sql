@@ -40,8 +40,9 @@ select * from new_table2 where dob between '2017-01-01' and '2020-12-31';
 
 insert into users (username, password) values ('Bob@gmail.com', 'aslfashdklfjhasljhfskljhdf');
 
-select * from users;
+select * from entries;
 
+rollback;
 select password from users where username='Matt@sdfg';
 
 CREATE TABLE `work_time_tracker`.`entries` (
@@ -70,3 +71,5 @@ select description, sum(time) from entries where user_id=(select ID from users w
 ALTER TABLE `work_time_tracker`.`entries` 
 ADD COLUMN `entry_id` INT NULL AUTO_INCREMENT AFTER `time`,
 ADD UNIQUE INDEX `entry_id_UNIQUE` (`entry_id` ASC);
+
+delete from entries where entry_id=1;

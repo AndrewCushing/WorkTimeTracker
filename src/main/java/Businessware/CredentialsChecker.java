@@ -13,7 +13,7 @@ public class CredentialsChecker {
 
     public static void handle(HttpExchange exchange) throws IOException {
         String[] usernameAndPassword = getValues(exchange);
-        ArrayList<String> matchedUserPassword = DBReader.sendSelectSQL("select password from users where username='"+usernameAndPassword[0]+"';");
+        ArrayList<String> matchedUserPassword = DBReader.sendSelectSQL(getFetchPasswordSQL(usernameAndPassword[0]));
         if (matchedUserPassword.size()<2){
             respond("User does not exist.", exchange);
         } else if(matchedUserPassword.get(0).trim().equals(usernameAndPassword[1])){
@@ -23,6 +23,10 @@ public class CredentialsChecker {
         }
         LogWriter.prepareLogs("Sent response for credential verification").run();
         exchange.close();
+    }
+
+    public static String getFetchPasswordSQL(String email){
+        return "select password from users where username='"+email+"';";
     }
 
 }

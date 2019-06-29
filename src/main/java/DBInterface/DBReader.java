@@ -19,6 +19,7 @@ public class DBReader {
             ArrayList<String> result = new ArrayList<>();
             putResults(result, rs);
             DBConnector.closeConnection();
+            LogWriter.prepareLogs("Results returned to middleware").run();
             return result;
         } catch (Exception e){
             LogWriter.prepareLogs("Failed to send query").run();
@@ -37,7 +38,7 @@ public class DBReader {
             while (setOfResults.next()) {
                 try{
                     for (int i = 1 ; ; i++){
-                        listToHoldResults.add(setOfResults.getString(i)+" ");
+                        listToHoldResults.add(setOfResults.getString(i));
                     }
                 } catch (Exception e){
                     listToHoldResults.add("\n");

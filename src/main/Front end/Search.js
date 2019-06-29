@@ -9,7 +9,6 @@ function checkCredentials(){
     xhr.responseType = 'text';
     xhr.onload = function(){
         if(xhr.status === 200){
-            console.log(xhr.responseText);
             if(xhr.responseText==='Access granted.'){
                 validCredentials = true;
                 getProjects();
@@ -33,7 +32,7 @@ function getProjects(){
         xhr.responseType = 'text';
         xhr.onload = function(){
             if(xhr.status === 200){
-                let projects = xhr.responseText.split(' :');
+                let projects = xhr.responseText.split(':');
                 createProjectSelector(projects);
             } else {
                 selectionForm.innerHTML = "<span>You haven't added any entries yet</span>";
@@ -53,6 +52,7 @@ function createProjectSelector(projectList){
     selectString += '</select><br><br>';
     selectString += '<button>Get Summary</button>';
     selectString += '</form><br><button onclick="getAllEntries()">Get all entries</button><br><br><br>';
+    selectString += '<div id="responseSpace"></div>';
     selectString += '<div id="summarySpace"></div>';
     selectionForm.innerHTML += selectString;
 }
@@ -93,13 +93,11 @@ function getAllEntries(){
             let summarySpace = document.getElementById("summarySpace");
             if(xhr.status === 200){
                 let response = xhr.responseText;
-                console.log(response);
-                let summaryInfo = response.split(' :');
-                console.log(summaryInfo);
-                let summaryString = '<table style="width:80%"><tr><th>Description</th><th>Date</th><th>Hours</th><th>Edit</th>' + 
+                let summaryInfo = response.split(':');
+                let summaryString = '<table id="entryTable" style="width:80%"><tr><th>Description</th><th>Date</th><th>Hours</th><th>Edit</th>' + 
                     '<th>Delete</th></tr>';
                 for (let i = 0 ; i < summaryInfo.length ; i+=4){
-                    summaryString += "<tr><td>" + summaryInfo[i] + "</td><td>" + summaryInfo[i+1] + "</td><td>" + summaryInfo[i+2] + 
+                    summaryString += '<tr id="' + summaryInfo[i+3] + '"><td>' + summaryInfo[i] + "</td><td>" + summaryInfo[i+1] + "</td><td>" + summaryInfo[i+2] + 
                         '</td><td><button onclick="editRecord(' + summaryInfo[i+3] + ')">Edit</button></td><td><button' + 
                         ' onclick="deleteRecord(' + summaryInfo[i+3] + ')">Delete</button></td></tr>';
                 }
@@ -113,7 +111,46 @@ function getAllEntries(){
 }
 
 function editRecord(recordID){
-    console.log(recordID);
+    let email = sessionStorage.getItem('email');
+        let xhr = new XMLHttpRequest();
+        xhr.open('PUT', 'http://localhost:3000/api/getAllEntries', true);
+        xhr.responseType = 'text';
+        xhr.onload = function(){
+            let summarySpace = document.getElementById("summarySpace");
+            if(xhr.status === 200){
+                let response = xhr.responseText;
+                let summaryInfo = response.split(' :');
+                let summaryString = '<table style="width:80%"><tr><th>Description</th><th>Date</th><th>Hours</th><th>Edit</th>' + 
+                    '<th>Delete</th></tr>';
+                for (let i = 0 ; i < summaryInfo.length ; i+=4){
+                    summaryString += "<tr><td>" + summaryInfo[i] + "</td><td>" + summaryInfo[i+1] + "</td><td>" + summaryInfo[i+2] + 
+                        '</td><td><button onclick="editRecord(' + summaryInfo[i+3] + ')">Edit</button></td><td><button' + 
+                        ' onclick="deleteRecord(' + summaryInfo[i+3] + ')">Delete</button></td></tr>';
+                }
+                summaryString += '</table><br><br>';
+                summarySpace.innerHTML = summaryString;
+            }
+        }
+        xhr.send(email + ":" + projectSelection);
+}
+
+function deleteRecord(entryID){
+    let email = sessionStorage.getItem('email');
+    let hashedPass = sessionStorage.getItem('pass');
+    let xhr = new XMLHttpRequest();
+    let resultDiv = document.getElementById("responseSpace");
+    let responses = ['','Entry deleted successully','Error when trying to remove from database','Your credentials could not be verified. Please log in and try again.'];
+    xhr.open('PUT', 'http://localhost:3000/api/deleteEntry', true);
+    xhr.responseType = 'text';
+    xhr.onload = function(){
+        resultDiv.innerHTML = '<h4>' + responses[Number(xhr.responseText)] + '</h4>';
+        if (xhr.responseText==='1'){
+            let rowToBeDeleted = document.getElementById(entryID);
+            console.log(rowToBeDeleted);
+            rowToBeDeleted.parentNode.removeChild(rowToBeDeleted);
+        }
+    }
+    xhr.send(email + ':' + hashedPass + ":" + entryID);
 }
 
 function goToMyAccount(){
