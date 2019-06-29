@@ -15,13 +15,14 @@ public class EntryInserter extends ExchangeHandler {
 
         try {
             DBWriter.insertRecord("entries",hashedPassAndValues);
-            LogWriter.prepareLogs("New entry inserted into database").run();
+            LogWriter.prepareLogs("New entry inserted into database");
             respond("Entry inserted into database", exchange);
         } catch (Exception e) {
             LogWriter.prepareLogs("Error inserting new entry into database. Please check that the database is up and running.");
             LogWriter.prepareLogs(e.getMessage()).run();
             respond("Error while trying to insert entry into database", exchange);
         }
+        LogWriter.prepareLogs("Completed handle request").run();
     }
 
 }

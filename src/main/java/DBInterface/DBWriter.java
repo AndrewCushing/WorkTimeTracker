@@ -9,7 +9,7 @@ public class DBWriter {
     public static void insertRecord(String table, String[] hashedPassAndValues) throws Exception {
 
         switch (table){
-            case "user":
+            case "users":
                 insertNewUser(hashedPassAndValues);
                 break;
             case "entries":
@@ -24,10 +24,12 @@ public class DBWriter {
 
             LogWriter.prepareLogs("Successfully retrieved user ID");
             LogWriter.prepareLogs("Attempting to insert entry");
-            Statement stmnt = DBConnector.openConnection();
             String userID = getUserIDFromEmail(hashedPassAndValues[0]);
+            Statement stmnt = DBConnector.openConnection();
             stmnt.executeUpdate(getInsertionStringEntry(userID, hashedPassAndValues));
             LogWriter.prepareLogs("Successfully inserted new entry into database");
+            stmnt.close();
+            LogWriter.prepareLogs("Successfully closed connection with database").run();
         } catch (Exception e){
             throw e;
         } finally {
@@ -39,6 +41,8 @@ public class DBWriter {
         try {
             Statement stmnt = DBConnector.openConnection();
             stmnt.executeUpdate(getInsertionStringUsers(hashedPassAndValues[0],hashedPassAndValues[1]));
+            stmnt.close();
+            LogWriter.prepareLogs("Successfully closed connection with database").run();
         } catch (Exception e){
             LogWriter.prepareLogs("Unable to insert new user into database");
             throw e;

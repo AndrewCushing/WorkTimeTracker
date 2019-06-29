@@ -39,10 +39,12 @@ function submitEntry(){
             if(xhr.status === 200){
                 console.log(xhr.responseText);
                 document.getElementById("insertionResult").innerHTML = xhr.responseText;
-                return false;
+            } else {
+                console.log("Error inserting record into db");
             }
         };
         xhr.send(email+":"+project+":"+description+":"+date+":"+hours);
+        return false;
     } else {
         alert("Please log in first");
         return false;

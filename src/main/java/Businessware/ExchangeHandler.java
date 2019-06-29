@@ -14,6 +14,17 @@ abstract class ExchangeHandler {
         exchange.getResponseBody().flush();
     }
 
+    protected static void respond(String responseText, HttpExchange exchange, int responseCode) throws IOException {
+        exchange.sendResponseHeaders(responseCode, responseText.getBytes().length);
+        exchange.getResponseBody().write(responseText.getBytes());
+        exchange.getResponseBody().flush();
+    }
+
+    protected static void respond(HttpExchange exchange, int responseCode) throws IOException {
+        exchange.sendResponseHeaders(responseCode, -1);
+        exchange.getResponseBody().flush();
+    }
+
     protected static String[] getValues(HttpExchange exchange) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(exchange.getRequestBody()));
         return br.readLine().split(":");

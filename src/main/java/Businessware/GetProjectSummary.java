@@ -16,6 +16,7 @@ public class GetProjectSummary extends ExchangeHandler {
         ArrayList<String> searchResults = DBReader.sendSelectSQL("select description, sum(time) from entries where" +
                 " user_id=(select ID from users where username='" + email + "') and project='test project'" +
                 " group by description;");
+
     }
 
 }

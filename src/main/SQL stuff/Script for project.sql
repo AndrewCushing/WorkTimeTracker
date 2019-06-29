@@ -61,6 +61,6 @@ select project from entries where user_id=(select ID from users where username='
 
 commit;
 
-select * from entries;
+select * from entries where user_id=(select ID from users where username='test1@test');
 
-select * from entries where user_id=(select ID from users where username='test123@blah') and project='test project' group by description;
+select description, sum(time) from entries where user_id=(select ID from users where username='test123@blah') and project='test project' group by description;

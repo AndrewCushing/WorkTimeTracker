@@ -6,26 +6,8 @@ import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class UserCreator extends ExchangeHandler {
-
-    private static Map<String, String> getParams(String rawParams){
-        if (rawParams == null || rawParams == ""){
-            return null;
-        }
-        String[] splitByAnd = rawParams.split("&");
-        String[][] splitIntoParams = new String[splitByAnd.length][];
-        for (int i = 0 ; i < splitByAnd.length ; i++){
-            splitIntoParams[i] = splitByAnd[i].split("=");
-        }
-        Map<String, String> result = new HashMap<>();
-        for (int i = 0 ; i < splitIntoParams.length ; i++){
-            result.put(splitIntoParams[i][0], splitIntoParams[i][1]);
-        }
-        return result;
-    }
 
     public static void handle(HttpExchange exchange) throws IOException {
         String[] usernameAndPassword = getValues(exchange);

@@ -32,10 +32,10 @@ function getProjects(){
         xhr.open('PUT', 'http://localhost:3000/api/getProjects', true);
         xhr.responseType = 'text';
         xhr.onload = function(){
+        let selectionForm = document.getElementById("resultsGoHere");
             if(xhr.status === 200){
                 let projects = xhr.responseText.split(' :');
-                let selectionForm = document.getElementById("resultsGoHere");
-                let selectString = '<br><br><form onsubmit="return findProjectSummary(this)">';
+                let selectString = '<span>Project: </span><br><br><form onsubmit="return findProjectSummary(this)">';
                 selectString += '<select name="Projects">';
                 for (let project in projects){
                     selectString += '<option>' + projects[project] + '</option>';
@@ -44,6 +44,8 @@ function getProjects(){
                 selectString += '<button>Get Summary</button>';
                 selectString += '</form><br><br>';
                 selectionForm.innerHTML += selectString;
+            } else {
+                selectionForm.innerHTML = "<span>You haven't added any entries yet</span>";
             }
         }
         xhr.send(email);
@@ -53,6 +55,10 @@ checkCredentials();
 
 function findProjectSummary(formData){
     let projectSelection = formData.Projects.value;
-    
+
     return false;
+}
+
+function goToMyAccount(){
+    window.location = 'MyAccount.html';
 }

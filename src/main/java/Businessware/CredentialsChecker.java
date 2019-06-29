@@ -21,6 +21,7 @@ public class CredentialsChecker {
         } else {
             respond("Incorrect password.", exchange);
         }
+        LogWriter.prepareLogs("Sent response for credential verification").run();
         exchange.close();
     }
 
