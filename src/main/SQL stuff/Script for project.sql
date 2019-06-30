@@ -73,3 +73,6 @@ ADD COLUMN `entry_id` INT NULL AUTO_INCREMENT AFTER `time`,
 ADD UNIQUE INDEX `entry_id_UNIQUE` (`entry_id` ASC);
 
 delete from entries where entry_id=1;
+
+select * from entries;
+

@@ -28,8 +28,11 @@ public class DBConnector {
             } catch (Exception e){
                 LogWriter.prepareLogs("Failed to initial connection with database").run();
             }
+            System.out.println(1);
             stmt=con.createStatement();
+            System.out.println(2);
             connected = true;
+            System.out.println(3);
             return stmt;
         } catch (Exception e){
             LogWriter.prepareLogs(e.getMessage()).run();

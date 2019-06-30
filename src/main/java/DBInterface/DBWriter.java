@@ -8,7 +8,6 @@ import java.sql.Statement;
 public class DBWriter {
 
     public static void insertRecord(String table, String[] hashedPassAndValues) throws Exception {
-
         switch (table){
             case "users":
                 insertNewUser(hashedPassAndValues);
@@ -24,6 +23,26 @@ public class DBWriter {
         Statement stmnt = DBConnector.openConnection();
         stmnt.executeUpdate("delete from entries where entry_id=" + entryID + " and user_id=(select user_id from" +
                 " users where username='" + email + "' and password='" + hashedPass + "');");
+        stmnt.close();
+    }
+
+    public static void updateEntry(String[] values) throws SQLException{
+//         entryID = values[0];
+//         email = values[1];
+//         hashedPass = values[2];
+//         project = values[3];
+//         description = values[4];
+//         date = values[5];
+//         time = values[6];
+        Statement stmnt = DBConnector.openConnection();
+        System.out.println(4);
+        LogWriter.prepareLogs("Received statement object from DB connection").run();
+        System.out.println(5);
+        stmnt.executeUpdate("UPDATE entries SET project = '" + values[3] + "', " +
+                "description = '" + values[4] + "', date = '" + values[5] + "', time = " + values[6] + " WHERE entry_id=" +
+                values[0] + " and user_id=" + "(select ID from users where username='" + values[1] + "' and password = '" + values[2] + "');");
+        System.out.println(6);
+        stmnt.close();
     }
 
     private static void insertNewEntry(String[] hashedPassAndValues) throws Exception{
