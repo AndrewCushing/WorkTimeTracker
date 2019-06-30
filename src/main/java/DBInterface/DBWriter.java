@@ -23,7 +23,7 @@ public class DBWriter {
         Statement stmnt = DBConnector.openConnection();
         stmnt.executeUpdate("delete from entries where entry_id=" + entryID + " and user_id=(select user_id from" +
                 " users where username='" + email + "' and password='" + hashedPass + "');");
-        stmnt.close();
+        DBConnector.closeConnection();
     }
 
     public static void updateEntry(String[] values) throws SQLException{
@@ -35,14 +35,11 @@ public class DBWriter {
 //         date = values[5];
 //         time = values[6];
         Statement stmnt = DBConnector.openConnection();
-        System.out.println(4);
         LogWriter.prepareLogs("Received statement object from DB connection").run();
-        System.out.println(5);
         stmnt.executeUpdate("UPDATE entries SET project = '" + values[3] + "', " +
                 "description = '" + values[4] + "', date = '" + values[5] + "', time = " + values[6] + " WHERE entry_id=" +
                 values[0] + " and user_id=" + "(select ID from users where username='" + values[1] + "' and password = '" + values[2] + "');");
-        System.out.println(6);
-        stmnt.close();
+        DBConnector.closeConnection();
     }
 
     private static void insertNewEntry(String[] hashedPassAndValues) throws Exception{
@@ -55,7 +52,7 @@ public class DBWriter {
             Statement stmnt = DBConnector.openConnection();
             stmnt.executeUpdate(getInsertionStringEntry(userID, hashedPassAndValues));
             LogWriter.prepareLogs("Successfully inserted new entry into database");
-            stmnt.close();
+            DBConnector.closeConnection();
             LogWriter.prepareLogs("Successfully closed connection with database").run();
         } catch (Exception e){
             throw e;

@@ -111,27 +111,36 @@ function getAllEntries(){
 }
 
 function editRecord(recordID){
+    let rowToEdit = document.getElementById(recordID);
+    let description = rowToEdit.children[0].innerHTML;
+    let date = rowToEdit.children[1].innerHTML;
+    let hours = rowToEdit.children[2].innerHTML;
+    let project = document.forms[0][0].value;
+    let summarySpace = document.getElementById("summarySpace");
+    summarySpace.innerHTML = '<form onsubmit="return editEntry(this,' + recordID + ')">'+
+        '<span>Project: </span><input type="text" required id="project" value="' + project + '"><br><br>'+
+        '<span>Description: </span><input type="text" required id="description" value="' + description + '"><br><br>'+
+        '<span>Date: </span><input type="date" required id="date" value ="' + date + '"><br><br>'+
+        '<span>No. of hours: </span><input type="number" required id="amountOfTime" value="' + hours + '"><br><br>'+
+        '<button>Submit</button><br>'+
+        '</form><div id="updateResult"></div>';
+}
+
+function editEntry(formData, recordID){
     let email = sessionStorage.getItem('email');
-        let xhr = new XMLHttpRequest();
-        xhr.open('PUT', 'http://localhost:3000/api/getAllEntries', true);
-        xhr.responseType = 'text';
-        xhr.onload = function(){
-            let summarySpace = document.getElementById("summarySpace");
-            if(xhr.status === 200){
-                let response = xhr.responseText;
-                let summaryInfo = response.split(' :');
-                let summaryString = '<table style="width:80%"><tr><th>Description</th><th>Date</th><th>Hours</th><th>Edit</th>' + 
-                    '<th>Delete</th></tr>';
-                for (let i = 0 ; i < summaryInfo.length ; i+=4){
-                    summaryString += "<tr><td>" + summaryInfo[i] + "</td><td>" + summaryInfo[i+1] + "</td><td>" + summaryInfo[i+2] + 
-                        '</td><td><button onclick="editRecord(' + summaryInfo[i+3] + ')">Edit</button></td><td><button' + 
-                        ' onclick="deleteRecord(' + summaryInfo[i+3] + ')">Delete</button></td></tr>';
-                }
-                summaryString += '</table><br><br>';
-                summarySpace.innerHTML = summaryString;
-            }
-        }
-        xhr.send(email + ":" + projectSelection);
+    let hashedPass = sessionStorage.getItem('pass');
+    let project = document.getElementById("project").value;
+    let description = document.getElementById("description").value;
+    let date = document.getElementById("date").value;
+    let hours = document.getElementById("amountOfTime").value;
+    let xhr = new XMLHttpRequest();
+    xhr.open('PUT', 'http://localhost:3000/api/updateEntry', true);
+    xhr.responseType = 'text';
+    xhr.onload = function(){
+        document.getElementById("updateResult").innerHTML = xhr.responseText;
+    };
+    xhr.send(recordID+':'+email+':'+hashedPass+":"+project+":"+description+":"+date+":"+hours);
+    return false;
 }
 
 function deleteRecord(entryID){
@@ -154,5 +163,5 @@ function deleteRecord(entryID){
 }
 
 function goToMyAccount(){
-    window.location = 'MyAccount.html';
+    window.location = 'AddEntry.html';
 }

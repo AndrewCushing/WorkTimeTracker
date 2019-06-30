@@ -13,13 +13,13 @@ public class UpdateEntry extends ExchangeHandler {
             LogWriter.prepareLogs("Attempting to update record");
             DBWriter.updateEntry(values);
             LogWriter.prepareLogs("Record updated successfully");
-            respond("1",exchange);
+            respond("Entry updated successfully",exchange);
             LogWriter.prepareLogs("Response sent").run();
 
         } catch (Exception e){
             LogWriter.prepareLogs("Error while attempting to update record");
             LogWriter.prepareLogs(e.getMessage());
-            respond("2", exchange);
+            respond("Error updating entry. Please check your database connection and try again", exchange);
             LogWriter.prepareLogs("Response sent").run();
         }
         exchange.close();

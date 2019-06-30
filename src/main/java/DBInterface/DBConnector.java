@@ -28,11 +28,8 @@ public class DBConnector {
             } catch (Exception e){
                 LogWriter.prepareLogs("Failed to initial connection with database").run();
             }
-            System.out.println(1);
             stmt=con.createStatement();
-            System.out.println(2);
             connected = true;
-            System.out.println(3);
             return stmt;
         } catch (Exception e){
             LogWriter.prepareLogs(e.getMessage()).run();
@@ -41,14 +38,15 @@ public class DBConnector {
     }
 
     static void closeConnection(){
-        try {
-            con.close();
-            connected = false;
-        } catch (SQLException e) {
-            LogWriter.prepareLogs(e.getMessage());
-            System.out.println("Failed to close connection with DB");
+        if (connected) {
+            try {
+                con.close();
+                connected = false;
+            } catch (SQLException e) {
+                LogWriter.prepareLogs(e.getMessage());
+                System.out.println("Failed to close connection with DB");
+            }
         }
-
     }
 
 }
