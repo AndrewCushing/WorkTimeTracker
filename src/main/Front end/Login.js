@@ -19,15 +19,13 @@ function checkCredentials(){
     let email = sessionStorage.getItem('email');
     let hashedPass = sessionStorage.getItem('pass');
     let xhr = new XMLHttpRequest();
-
     xhr.open('PUT', 'http://localhost:3000/api/login', true);
     xhr.responseType = 'text';
-
     xhr.onload = function(){
         if(xhr.status === 200){
             console.log(xhr.responseText);
             if(xhr.responseText==='Access granted.'){
-                document.getElementById("loginResult").innerHTML = 'Login successful\nClick <a href="AddEntry.html">here<a> to continue';
+                document.location = 'AddEntry.html';
             } else if (xhr.responseText==="User does not exist.") {
                 alert('User does not exist');
                 validation = false;

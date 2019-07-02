@@ -4,9 +4,7 @@ function checkCredentials(){
     validCredentials = false;
     let email = sessionStorage.getItem('email');
     let hashedPass = sessionStorage.getItem('pass');
-    let xhr = new XMLHttpRequest();
-    xhr.open('PUT', 'http://localhost:3000/api/login', true);
-    xhr.responseType = 'text';
+    let xhr = makeXHR('PUT', 'http://localhost:3000/api/login');
     xhr.onload = function(){
         if(xhr.status === 200){
             if(xhr.responseText==='Access granted.'){
@@ -27,9 +25,7 @@ function checkCredentials(){
 function getProjects(){
     if(validCredentials){
         let email = sessionStorage.getItem('email');
-        let xhr = new XMLHttpRequest();
-        xhr.open('PUT', 'http://localhost:3000/api/getProjects', true);
-        xhr.responseType = 'text';
+        let xhr = makeXHR('PUT', 'http://localhost:3000/api/getProjects');
         xhr.onload = function(){
             if(xhr.status === 200){
                 let projects = xhr.responseText.split(':');
@@ -49,22 +45,16 @@ function createProjectSelector(projectList){
     for (let project in projectList){
         selectString += '<option>' + projectList[project] + '</option>';
     }
-    selectString += '</select><br><br>';
-    selectString += '<button>Get Summary</button>';
-    selectString += '</form><br><button onclick="getAllEntries()">Get all entries</button><br><br><br>';
-    selectString += '<div id="responseSpace"></div>';
-    selectString += '<div id="summarySpace"></div>';
+    selectString += '</select></form><br><br>';
     selectionForm.innerHTML += selectString;
 }
 checkCredentials();
 
-function findProjectSummary(formData){
-    let projectSelection = formData.Projects.value;
+function findProjectSummary(){
+    let projectSelection = document.getElementById("searchForm").Projects.value;
     if(validCredentials){
         let email = sessionStorage.getItem('email');
-        let xhr = new XMLHttpRequest();
-        xhr.open('PUT', 'http://localhost:3000/api/summaryByProject', true);
-        xhr.responseType = 'text';
+        let xhr = makeXHR('PUT', 'http://localhost:3000/api/summaryByProject');
         xhr.onload = function(){
             let summarySpace = document.getElementById("summarySpace");
             if(xhr.status === 200){
@@ -86,9 +76,7 @@ function getAllEntries(){
     let projectSelection = document.getElementById("searchForm").Projects.value;
     if(validCredentials){
         let email = sessionStorage.getItem('email');
-        let xhr = new XMLHttpRequest();
-        xhr.open('PUT', 'http://localhost:3000/api/getAllEntries', true);
-        xhr.responseType = 'text';
+        let xhr = makeXHR('PUT', 'http://localhost:3000/api/getAllEntries');
         xhr.onload = function(){
             let summarySpace = document.getElementById("summarySpace");
             if(xhr.status === 200){
@@ -133,26 +121,33 @@ function editEntry(formData, recordID){
     let description = document.getElementById("description").value;
     let date = document.getElementById("date").value;
     let hours = document.getElementById("amountOfTime").value;
-    let responseBody = recordID+':'+email+':'+hashedPass+":"+project+":"+description+":"+date+":"+hours;
-    sendToAPI('PUT', 'http://localhost:3000/api/updateEntry', responseBody, function(){
-        document.getElementById("updateResult").innerHTML = xhr.responseText;
-    });
+    let xhr = makeXHR('PUT', 'http://localhost:3000/api/updateEntry');
+    xhr.onload = function(){
+        if (xhr.responseText==="Entry updated successfully"){
+            getAllEntries();
+        } else {
+            document.getElementById("summarySpace").innerHTML = xhr.responseText;
+        }
+    };
+    xhr.send(recordID+':'+email+':'+hashedPass+":"+project+":"+description+":"+date+":"+hours);
     return false;
 }
 
 function deleteRecord(entryID){
     let email = sessionStorage.getItem('email');
     let hashedPass = sessionStorage.getItem('pass');
-    let responseBody = email + ':' + hashedPass + ":" + entryID;
-    sendToAPI('PUT', 'http://localhost:3000/api/deleteEntry', responseBody, function(){
-        let resultDiv = document.getElementById("responseSpace");
-        let responses = ['','Entry deleted successully','Error when trying to remove from database','Your credentials could not be verified. Please log in and try again.'];
+    let resultDiv = document.getElementById("responseSpace");
+    let responses = ['','Entry deleted successully','Error when trying to remove from database','Your credentials could not be verified. Please log in and try again.'];
+    let xhr = makeXHR('PUT', 'http://localhost:3000/api/deleteEntry');
+    xhr.onload = function(){
         resultDiv.innerHTML = '<h4>' + responses[Number(xhr.responseText)] + '</h4>';
         if (xhr.responseText==='1'){
             let rowToBeDeleted = document.getElementById(entryID);
+            console.log(rowToBeDeleted);
             rowToBeDeleted.parentNode.removeChild(rowToBeDeleted);
         }
-    });
+    }
+    xhr.send(email + ':' + hashedPass + ":" + entryID);
 }
 
 function logout(){
@@ -164,10 +159,17 @@ function goToMyAccount(){
     window.location = 'AddEntry.html';
 }
 
-function sendToAPI(requestHeader, requestPath, requestBody, functionToPerformOnload){
+function makeXHR(requestHeader, requestPath){
     let xhr = new XMLHttpRequest();
     xhr.open(requestHeader, requestPath, true);
     xhr.responseType = 'text';
-    xhr.onload = functionToPerformOnload();
-    xhr.send(requestBody);
+    return xhr;
+}
+
+function findFilteredProjectSummary(){
+
+}
+
+function getFilteredEntries(){
+    
 }

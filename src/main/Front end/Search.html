@@ -7,6 +7,24 @@
         <h4>Search though existing entries</h4>
         <div id="resultsGoHere">
         </div>
+        <table id="searchCriteria">
+            <tr><th>For all entries:</th></tr>
+            <tr>
+                <td><button style="margin: 10px" onclick="findProjectSummary()">Get Summary</button></td>
+                <td><button style="margin: 10px" onclick="getAllEntries()">Get all entries</button></td>
+            </tr>
+            <tr><th>For filtered entries:</th></tr>
+            <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+            <tr>
+                <td><button style="margin: 10px" onclick="findFilteredProjectSummary()">Get Summary</button></td>
+                <td><button style="margin: 10px" onclick="getFilteredEntries()">Get all entries</button></td>
+            </tr>
+        </table>
+        <div id="summarySpace"></div>
+        <div id="responseSpace"></div>
         <button onclick="logout()">Logout</button>
     </body>
 </html>

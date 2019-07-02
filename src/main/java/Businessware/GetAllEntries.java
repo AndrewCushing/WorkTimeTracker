@@ -13,7 +13,7 @@ public class GetAllEntries extends ExchangeHandler {
         String email = requestData[0];
         String project = requestData[1];
         ArrayList<String> allEntries = DBReader.sendSelectSQL("select description, date, time, entry_id from entries " +
-                "where user_id=(select ID from users where username='" + email + "') and project='" + project + "';");
+                "where user_id=(select ID from users where username='" + email + "') and project='" + project + "' order by date desc;");
         String responseString = allEntries.get(0);
         for (int i = 1 ; i < allEntries.size() ; i++){
             if (i % 5 == 4){
