@@ -76,3 +76,4 @@ delete from entries where entry_id=1;
 
 select * from entries;
 
+UPDATE entries SET project = 'another project', description = 'meeting', date = '2019-06-01', time = 19 WHERE entry_id=4 and user_id=(select ID from users where username='test123@blah');

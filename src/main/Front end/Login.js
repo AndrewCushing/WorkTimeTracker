@@ -11,11 +11,7 @@
 function attemptLogin(){
     sessionStorage.setItem('email',document.getElementById('emailInput').value);
     sessionStorage.setItem('pass',sha256(document.getElementById('passwordInput').value));//64 characters
-
     checkCredentials();
-    
-    // sessionStorage.clear();
-    // window.location = 'MyAccount.html';
     return false;
 }
 
@@ -31,7 +27,7 @@ function checkCredentials(){
         if(xhr.status === 200){
             console.log(xhr.responseText);
             if(xhr.responseText==='Access granted.'){
-                document.getElementById("loginResult").innerHTML = 'Login successful\nClick <a href="MyAccount.html">here<a> to continue';
+                document.getElementById("loginResult").innerHTML = 'Login successful\nClick <a href="AddEntry.html">here<a> to continue';
             } else if (xhr.responseText==="User does not exist.") {
                 alert('User does not exist');
                 validation = false;
@@ -41,6 +37,5 @@ function checkCredentials(){
             }
         }
     };
-
     xhr.send(email + ':' + hashedPass);
 }

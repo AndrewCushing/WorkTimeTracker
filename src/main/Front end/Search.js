@@ -35,7 +35,7 @@ function getProjects(){
                 let projects = xhr.responseText.split(':');
                 createProjectSelector(projects);
             } else {
-                selectionForm.innerHTML = "<span>You haven't added any entries yet</span>";
+                document.getElementById("resultsGoHere").innerHTML = "<span>You haven't added any entries yet</span>";
             }
         }
         xhr.send(email);
@@ -68,10 +68,10 @@ function findProjectSummary(formData){
         xhr.onload = function(){
             let summarySpace = document.getElementById("summarySpace");
             if(xhr.status === 200){
-                let summaryInfo = xhr.responseText.split(' :');
-                let summaryString = '<table style="width:50%"><tr><th>Description</th><th>Total time</th></tr>';
+                let summaryInfo = xhr.responseText.split(':');
+                let summaryString = '<table style="width:50%"><tr><th style="text-align:center">Description</th><th style="text-align:center">Total time</th></tr>';
                 for (let i = 0 ; i < summaryInfo.length ; i+=2){
-                    summaryString += "<tr><td>" + summaryInfo[i] + "</td><td>" + summaryInfo[i+1] + "</td></tr>";
+                    summaryString += '<tr><td>' + summaryInfo[i] + '</td><td>' + summaryInfo[i+1] + "</td></tr>";
                 }
                 summaryString += '</table><br><br>';
                 summarySpace.innerHTML = summaryString;
@@ -133,35 +133,41 @@ function editEntry(formData, recordID){
     let description = document.getElementById("description").value;
     let date = document.getElementById("date").value;
     let hours = document.getElementById("amountOfTime").value;
-    let xhr = new XMLHttpRequest();
-    xhr.open('PUT', 'http://localhost:3000/api/updateEntry', true);
-    xhr.responseType = 'text';
-    xhr.onload = function(){
+    let responseBody = recordID+':'+email+':'+hashedPass+":"+project+":"+description+":"+date+":"+hours;
+    sendToAPI('PUT', 'http://localhost:3000/api/updateEntry', responseBody, function(){
         document.getElementById("updateResult").innerHTML = xhr.responseText;
-    };
-    xhr.send(recordID+':'+email+':'+hashedPass+":"+project+":"+description+":"+date+":"+hours);
+    });
     return false;
 }
 
 function deleteRecord(entryID){
     let email = sessionStorage.getItem('email');
     let hashedPass = sessionStorage.getItem('pass');
-    let xhr = new XMLHttpRequest();
-    let resultDiv = document.getElementById("responseSpace");
-    let responses = ['','Entry deleted successully','Error when trying to remove from database','Your credentials could not be verified. Please log in and try again.'];
-    xhr.open('PUT', 'http://localhost:3000/api/deleteEntry', true);
-    xhr.responseType = 'text';
-    xhr.onload = function(){
+    let responseBody = email + ':' + hashedPass + ":" + entryID;
+    sendToAPI('PUT', 'http://localhost:3000/api/deleteEntry', responseBody, function(){
+        let resultDiv = document.getElementById("responseSpace");
+        let responses = ['','Entry deleted successully','Error when trying to remove from database','Your credentials could not be verified. Please log in and try again.'];
         resultDiv.innerHTML = '<h4>' + responses[Number(xhr.responseText)] + '</h4>';
         if (xhr.responseText==='1'){
             let rowToBeDeleted = document.getElementById(entryID);
-            console.log(rowToBeDeleted);
             rowToBeDeleted.parentNode.removeChild(rowToBeDeleted);
         }
-    }
-    xhr.send(email + ':' + hashedPass + ":" + entryID);
+    });
+}
+
+function logout(){
+    sessionStorage.clear();
+    window.location = "Login.html";
 }
 
 function goToMyAccount(){
     window.location = 'AddEntry.html';
+}
+
+function sendToAPI(requestHeader, requestPath, requestBody, functionToPerformOnload){
+    let xhr = new XMLHttpRequest();
+    xhr.open(requestHeader, requestPath, true);
+    xhr.responseType = 'text';
+    xhr.onload = functionToPerformOnload();
+    xhr.send(requestBody);
 }

@@ -27,13 +27,6 @@ public class DBWriter {
     }
 
     public static void updateEntry(String[] values) throws SQLException{
-//         entryID = values[0];
-//         email = values[1];
-//         hashedPass = values[2];
-//         project = values[3];
-//         description = values[4];
-//         date = values[5];
-//         time = values[6];
         Statement stmnt = DBConnector.openConnection();
         LogWriter.prepareLogs("Received statement object from DB connection").run();
         stmnt.executeUpdate("UPDATE entries SET project = '" + values[3] + "', " +
