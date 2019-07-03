@@ -50,4 +50,11 @@ public class DBReader {
     private static String getUserIDFromEmail(String email){
         return DBReader.sendSelectSQL("select ID from users where username='" + email + "';").get(0);
     }
+
+    public static ArrayList<String> getFilteredProjectSummary(String email, String password, String startDate,
+                                                              String endDate, String project){
+        return DBReader.sendSelectSQL("select description, date, time, entry_id from entries where " +
+                "user_id=(select user_id from users where username='' and password='') and date >= '" + startDate + "'" +
+                " and date <= '" + endDate + "';");
+    }
 }

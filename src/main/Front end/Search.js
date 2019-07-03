@@ -167,9 +167,11 @@ function makeXHR(requestHeader, requestPath){
 }
 
 function findFilteredProjectSummary(){
-
+    let startDate = document.getElementById("startDate").value;
+    let endDate = document.getElementById("endDate").value;
+    
 }
 
 function getFilteredEntries(){
-    
+
 }

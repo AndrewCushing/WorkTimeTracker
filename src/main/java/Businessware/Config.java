@@ -13,5 +13,6 @@ public class Config {
     public final static String GET_ALL_ENTRIES = "/api/getAllEntries";
     public final static String UPDATE_ENTRY = "/api/updateEntry";
     public final static String DELETE_ENTRY = "/api/deleteEntry";
-
+    public static final String GET_FILTERED_SUMMARY = "/api/getFilteredSummary";
+    public static final String GET_FILTERED_ENTRIES = "/api/getFilteredEntries";
 }

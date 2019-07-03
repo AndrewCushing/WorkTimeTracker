@@ -22,6 +22,8 @@ public class MyAPI {
             addPath(server, Config.REGISTER_PATH, false, true);
             addPath(server, Config.DELETE_ENTRY, false, true);
             addPath(server, Config.UPDATE_ENTRY, false, true);
+            addPath(server, Config.GET_FILTERED_SUMMARY, false, true);
+            addPath(server, Config.GET_FILTERED_ENTRIES, false, true);
             server.setExecutor(null); // creates a default executor, who knows why?
             LogWriter.prepareLogs("Added default executor");
             server.start();
