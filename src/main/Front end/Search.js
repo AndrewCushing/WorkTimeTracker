@@ -78,20 +78,7 @@ function getAllEntries(){
         let email = sessionStorage.getItem('email');
         let xhr = makeXHR('PUT', 'http://localhost:3000/api/getAllEntries');
         xhr.onload = function(){
-            let summarySpace = document.getElementById("summarySpace");
-            if(xhr.status === 200){
-                let response = xhr.responseText;
-                let summaryInfo = response.split(':');
-                let summaryString = '<table id="entryTable" style="width:80%"><tr><th>Description</th><th>Date</th><th>Hours</th><th>Edit</th>' + 
-                    '<th>Delete</th></tr>';
-                for (let i = 0 ; i < summaryInfo.length ; i+=4){
-                    summaryString += '<tr id="' + summaryInfo[i+3] + '"><td>' + summaryInfo[i] + "</td><td>" + summaryInfo[i+1] + "</td><td>" + summaryInfo[i+2] + 
-                        '</td><td><button onclick="editRecord(' + summaryInfo[i+3] + ')">Edit</button></td><td><button' + 
-                        ' onclick="deleteRecord(' + summaryInfo[i+3] + ')">Delete</button></td></tr>';
-                }
-                summaryString += '</table><br><br>';
-                summarySpace.innerHTML = summaryString;
-            }
+                displayEntries(xhr.responseText);                
         }
         xhr.send(email + ":" + projectSelection);
     }
@@ -167,11 +154,36 @@ function makeXHR(requestHeader, requestPath){
 }
 
 function findFilteredProjectSummary(){
-    let startDate = document.getElementById("startDate").value;
-    let endDate = document.getElementById("endDate").value;
     
 }
 
 function getFilteredEntries(){
+    let startDate = document.getElementById("startDate").value;
+    let endDate = document.getElementById("endDate").value;
+    let project = document.getElementById("searchForm").Projects.value
+    let email = sessionStorage.getItem('email');
+    let hashedPass = sessionStorage.getItem('pass');
+    let xhr = makeXHR('PUT', 'http://localhost:3000/api/getFilteredEntries');
+    xhr.onload = function(){
+        if (xhr.responseText==='No entries found'){
+            document.getElementById("summarySpace").innerHTML = '<h3>No entries found</h3>';
+            return;
+        }
+        displayEntries(xhr.responseText);
+    }
+    xhr.send(email+":"+hashedPass+":"+startDate+":"+endDate+":"+project);
+}
 
+function displayEntries(entriesAsString){
+    let summarySpace = document.getElementById("summarySpace");
+    let entryInfo = entriesAsString.split(':');
+    let summaryString = '<table id="entryTable" style="width:80%"><tr><th>Description</th><th>Date</th><th>Hours</th><th>Edit</th>' + 
+        '<th>Delete</th></tr>';
+    for (let i = 0 ; i < entryInfo.length ; i+=4){
+        summaryString += '<tr id="' + entryInfo[i+3] + '"><td>' + entryInfo[i] + "</td><td>" + entryInfo[i+1] + "</td><td>" + entryInfo[i+2] + 
+            '</td><td><button onclick="editRecord(' + entryInfo[i+3] + ')">Edit</button></td><td><button' + 
+            ' onclick="deleteRecord(' + entryInfo[i+3] + ')">Delete</button></td></tr>';
+    }
+    summaryString += '</table><br><br>';
+    summarySpace.innerHTML = summaryString;
 }

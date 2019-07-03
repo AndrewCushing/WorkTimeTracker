@@ -51,10 +51,12 @@ public class DBReader {
         return DBReader.sendSelectSQL("select ID from users where username='" + email + "';").get(0);
     }
 
-    public static ArrayList<String> getFilteredProjectSummary(String email, String password, String startDate,
+    public static ArrayList<String> getFilteredEntries(String email, String password, String startDate,
                                                               String endDate, String project){
-        return DBReader.sendSelectSQL("select description, date, time, entry_id from entries where " +
-                "user_id=(select user_id from users where username='' and password='') and date >= '" + startDate + "'" +
-                " and date <= '" + endDate + "';");
+        String selectionStatement = "select description, date, time, entry_id from entries where " +
+                "user_id=(select id from users where username='" + email + "' and password='" + password +
+                "') and date >= '" + startDate + "' and date <= '" + endDate + "' and project='" + project + "';";
+        LogWriter.prepareLogs("Sent the following SQL to database: " + selectionStatement);
+        return DBReader.sendSelectSQL(selectionStatement);
     }
 }

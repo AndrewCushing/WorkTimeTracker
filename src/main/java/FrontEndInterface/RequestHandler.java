@@ -55,6 +55,9 @@ public class RequestHandler implements HttpHandler {
                         case Config.UPDATE_ENTRY:
                             UpdateEntry.handle(exchange);
                             break;
+                        case Config.GET_FILTERED_ENTRIES:
+                            GetFilteredProjectEntries.handle(exchange);
+                            break;
                         default:
                             rejectRequest(exchange);
                     }
