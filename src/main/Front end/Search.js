@@ -92,12 +92,13 @@ function editRecord(recordID){
     let hours = rowToEdit.children[2].innerHTML;
     let project = document.forms[0][0].value;
     let summarySpace = document.getElementById("summarySpace");
-    summarySpace.innerHTML = '<form onsubmit="return editEntry(this,' + recordID + ')">'+
-        '<span>Project: </span><input type="text" required id="project" value="' + project + '"><br><br>'+
-        '<span>Description: </span><input type="text" required id="description" value="' + description + '"><br><br>'+
-        '<span>Date: </span><input type="date" required id="date" value ="' + date + '"><br><br>'+
-        '<span>No. of hours: </span><input type="number" required id="amountOfTime" value="' + hours + '"><br><br>'+
-        '<button>Submit</button><br>'+
+    summarySpace.innerHTML = '<table style="width:75%" class="table table-bordered"><form onsubmit="return editEntry(this,' + 
+        recordID + ')"><tr><th>Field</th><th>New value</th></tr><tr><td>' + 
+        '<span>Project: </span></td><td><input type="text" required id="project" value="' + project + '"></td></tr>'+
+        '<tr><td><span>Description: </span></td><td><input type="text" required id="description" value="' + description + '"></td></tr>'+
+        '<tr><td><span>Date: </span></td><td><input type="date" required id="date" value ="' + date + '"></td></tr>'+
+        '<tr><td><span>No. of hours: </span></td><td><input type="number" required id="amountOfTime" value="' + hours + '"></td></tr>'+
+        '<tr><td><button>Submit</button></table></td></tr>'+
         '</form><div id="updateResult"></div>';
 }
 
@@ -154,7 +155,7 @@ function makeXHR(requestHeader, requestPath){
 }
 
 function findFilteredProjectSummary(){
-    
+    alert("Feature not yet implemented. This will be included in a future release.");
 }
 
 function getFilteredEntries(){
@@ -177,7 +178,7 @@ function getFilteredEntries(){
 function displayEntries(entriesAsString){
     let summarySpace = document.getElementById("summarySpace");
     let entryInfo = entriesAsString.split(':');
-    let summaryString = '<table style="width:50%" class="table table-bordered" id="entryTable"><tr><th scope="col">Description</th><th scope="col">Date</th><th scope="col">Hours</th><th scope="col">Edit</th>' + 
+    let summaryString = '<table style="width:70%" class="table table-bordered" id="entryTable"><tr><th scope="col">Description</th><th scope="col">Date</th><th scope="col">Hours</th><th scope="col">Edit</th>' + 
         '<th>Delete</th></tr>';
     for (let i = 0 ; i < entryInfo.length ; i+=4){
         summaryString += '<tr id="' + entryInfo[i+3] + '"><td>' + entryInfo[i] + "</td><td>" + entryInfo[i+1] + "</td><td>" + entryInfo[i+2] + 
