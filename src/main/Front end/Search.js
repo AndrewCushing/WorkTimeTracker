@@ -45,7 +45,7 @@ function createProjectSelector(projectList){
     for (let project in projectList){
         selectString += '<option>' + projectList[project] + '</option>';
     }
-    selectString += '</select></form><br><br>';
+    selectString += '</select></form>';
     selectionForm.innerHTML += selectString;
 }
 checkCredentials();
@@ -59,7 +59,7 @@ function findProjectSummary(){
             let summarySpace = document.getElementById("summarySpace");
             if(xhr.status === 200){
                 let summaryInfo = xhr.responseText.split(':');
-                let summaryString = '<table style="width:50%"><tr><th style="text-align:center">Description</th><th style="text-align:center">Total time</th></tr>';
+                let summaryString = '<table style="width:50%" class="table table-bordered" id="entryTable"><tr><th scope="col">Description</th><th scope="col">Total time</th></tr>';
                 for (let i = 0 ; i < summaryInfo.length ; i+=2){
                     summaryString += '<tr><td>' + summaryInfo[i] + '</td><td>' + summaryInfo[i+1] + "</td></tr>";
                 }
@@ -177,7 +177,7 @@ function getFilteredEntries(){
 function displayEntries(entriesAsString){
     let summarySpace = document.getElementById("summarySpace");
     let entryInfo = entriesAsString.split(':');
-    let summaryString = '<table id="entryTable" style="width:80%"><tr><th>Description</th><th>Date</th><th>Hours</th><th>Edit</th>' + 
+    let summaryString = '<table style="width:50%" class="table table-bordered" id="entryTable"><tr><th scope="col">Description</th><th scope="col">Date</th><th scope="col">Hours</th><th scope="col">Edit</th>' + 
         '<th>Delete</th></tr>';
     for (let i = 0 ; i < entryInfo.length ; i+=4){
         summaryString += '<tr id="' + entryInfo[i+3] + '"><td>' + entryInfo[i] + "</td><td>" + entryInfo[i+1] + "</td><td>" + entryInfo[i+2] + 

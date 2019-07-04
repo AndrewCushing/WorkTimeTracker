@@ -1,15 +1,24 @@
 <html>
     <head>
-            <script src="RegisterNewUser.js"></script>
+        <script src="RegisterNewUser.js"></script>
         <title>Register an account for work time tracker</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     </head>
     <body>
-        <form onsubmit="return attemptRegister(this)">
-            <span>Email: </span><input type="email" required id="emailInput"><br>
-            <span>Password: </span><input type="password" required id="passwordInput"><br>
-            <span>Confirm password: </span><input type="password" required id="confirmPasswordInput"><br>
-            <button>Register</button><br>
-        </form>
+            <table>
+                    <form onsubmit="return attemptRegister(this)" class="form-group">
+                        <tr>
+                            <td><label>Email: </label></td><td><input class="form-control" type="email" required id="emailInput" style="width:500px ; margin: 25px"></td>
+                        </tr>
+                        <tr>
+                            <td><label>Password: </label></td><td><input class="form-control" type="password" required id="passwordInput" style="width:500px ; margin: 25px"></td>
+                        </tr>
+                        <tr>
+                            <td><label>Confirm password: </label></td><td><input class="form-control" type="password" required id="confirmPasswordInput" style="width:500px ; margin: 25px"></td>
+                        </tr>
+                        <tr><td><button>Register</button></td></tr>
+                    </form>
+                </table><br><br>
         <h2 id="registrationResult"></h2>
     </body>
 </html>
