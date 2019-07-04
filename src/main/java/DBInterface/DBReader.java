@@ -56,7 +56,7 @@ public class DBReader {
         String selectionStatement = "select description, date, time, entry_id from entries where " +
                 "user_id=(select id from users where username='" + email + "' and password='" + password +
                 "') and date >= '" + startDate + "' and date <= '" + endDate + "' and project='" + project + "';";
-        LogWriter.prepareLogs("Sent the following SQL to database: " + selectionStatement);
+        LogWriter.prepareLogs("Sending the following SQL to database: " + selectionStatement);
         return DBReader.sendSelectSQL(selectionStatement);
     }
 }

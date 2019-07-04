@@ -26,7 +26,8 @@ public class DBConnector {
                 con = DriverManager.getConnection(Config.DBLOCATION, "root", "password");
                 LogWriter.prepareLogs("Successfully initiated connection with database").run();
             } catch (Exception e){
-                LogWriter.prepareLogs("Failed to initial connection with database").run();
+                LogWriter.prepareLogs("Failed to initial connection with database");
+                LogWriter.prepareLogs(e.getMessage()).run();
             }
             stmt=con.createStatement();
             connected = true;
