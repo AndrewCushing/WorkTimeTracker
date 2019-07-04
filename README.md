@@ -31,7 +31,7 @@ Appendix 1
 3. Select File > Open SQL script then choose the SQL initialisation script mentioned.
 4. Run the SQL queries in order (or select them all and hit run).
 
-
+________________
 
 
 Appendix 2
