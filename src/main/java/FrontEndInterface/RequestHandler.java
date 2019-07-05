@@ -44,7 +44,7 @@ public class RequestHandler implements HttpHandler {
                             GetProjectsList.handle(exchange);
                             break;
                         case Config.SUMMARY_PATH:
-                            GetProjectSummary.handle(exchange);
+                            GetProjectSummary.handle(exchange, false);
                             break;
                         case Config.GET_ALL_ENTRIES:
                             GetAllEntries.handle(exchange);
@@ -57,6 +57,9 @@ public class RequestHandler implements HttpHandler {
                             break;
                         case Config.GET_FILTERED_ENTRIES:
                             GetFilteredProjectEntries.handle(exchange);
+                            break;
+                        case Config.GET_FILTERED_SUMMARY:
+                            GetProjectSummary.handle(exchange, true);
                             break;
                         default:
                             rejectRequest(exchange);

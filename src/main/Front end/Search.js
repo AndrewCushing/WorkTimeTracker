@@ -56,20 +56,22 @@ function findProjectSummary(){
         let email = sessionStorage.getItem('email');
         let xhr = makeXHR('PUT', 'http://localhost:3000/api/summaryByProject');
         xhr.onload = function(){
-            let summarySpace = document.getElementById("summarySpace");
-            if(xhr.status === 200){
-                let summaryInfo = xhr.responseText.split(':');
-                let summaryString = '<table style="width:50%" class="table table-bordered" id="entryTable"><tr><th scope="col">Description</th><th scope="col">Total time</th></tr>';
-                for (let i = 0 ; i < summaryInfo.length ; i+=2){
-                    summaryString += '<tr><td>' + summaryInfo[i] + '</td><td>' + summaryInfo[i+1] + "</td></tr>";
-                }
-                summaryString += '</table><br><br>';
-                summarySpace.innerHTML = summaryString;
-            }
+            displaySummary(xhr.responseText);
         }
         xhr.send(email + ":" + projectSelection);
     }
     return false;
+}
+
+function displaySummary(responseString){
+    let summarySpace = document.getElementById("summarySpace");
+    let summaryInfo = responseString.split(":");
+    let summaryString = '<table style="width:70%" class="table table-bordered" id="entryTable"><tr><th scope="col">Description</th><th scope="col">Total time</th></tr>';
+    for (let i = 0 ; i < summaryInfo.length ; i+=2){
+        summaryString += '<tr><td>' + summaryInfo[i] + '</td><td>' + summaryInfo[i+1] + "</td></tr>";
+    }
+    summaryString += '</table><br><br>';
+    summarySpace.innerHTML = summaryString;
 }
 
 function getAllEntries(){
@@ -155,7 +157,21 @@ function makeXHR(requestHeader, requestPath){
 }
 
 function findFilteredProjectSummary(){
-    alert("Feature not yet implemented. This will be included in a future release.");
+    let startDate = document.getElementById("startDate").value;
+    let endDate = document.getElementById("endDate").value;
+    let project = document.getElementById("searchForm").Projects.value
+    let email = sessionStorage.getItem('email');
+    let hashedPass = sessionStorage.getItem('pass');
+    let xhr = makeXHR('PUT', 'http://localhost:3000/api/getFilteredSummary');
+    xhr.onload = function(){
+        if (xhr.responseText==='No entries found'){
+            document.getElementById("summarySpace").innerHTML = '<h3>No entries found</h3>';
+            return;
+        } else {
+            displaySummary(xhr.responseText);
+        }
+    }
+    xhr.send(email+":"+hashedPass+":"+startDate+":"+endDate+":"+project);
 }
 
 function getFilteredEntries(){
@@ -169,8 +185,9 @@ function getFilteredEntries(){
         if (xhr.responseText==='No entries found'){
             document.getElementById("summarySpace").innerHTML = '<h3>No entries found</h3>';
             return;
+        } else {
+            displayEntries(xhr.responseText);
         }
-        displayEntries(xhr.responseText);
     }
     xhr.send(email+":"+hashedPass+":"+startDate+":"+endDate+":"+project);
 }
